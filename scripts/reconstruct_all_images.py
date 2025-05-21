@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script for reconstructing multiple CryoEM images across different datasets,
+Script for reconstructing all images in a dataset,
 distributing the work across multiple GPUs.
 """
 
@@ -16,7 +16,7 @@ import torch
 import multiprocessing
 import mrcfile
 
-# Default settings
+# Configuration for reconstruction
 default_result_dir = 'results/all_images'
 default_gpu_ids = [0, 1, 2, 3]
 default_batch_size = 16
@@ -24,7 +24,7 @@ default_block_size = 32
 default_num_masks = 1024
 default_mask_type = 'random_binary'
 
-# Dataset collection
+# Experiments collection
 experiments = [
     {
         'protein': 'empiar10076_128',

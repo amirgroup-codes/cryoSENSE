@@ -6,12 +6,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="cryogen",
     version="0.1.0",
-    author="Danial Saeedi",
-    author_email="saeedi.danial@gmail.com",
+    author="Anonymous",
+    author_email="anonymous@gmail.com",
     description="CryoEM Image Reconstruction with Diffusion Models",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/dsene/CryoGEN",
+    url="",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

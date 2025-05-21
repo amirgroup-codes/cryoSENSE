@@ -33,36 +33,38 @@ default_gpu_ids = [0]
 
 # Default datasets
 datasets = [
+
+    # Make sure to download the data from the links included in the README.md file and update the paths belo.
     {
-        'protein': 'empiar10076_128',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-128-EMPIAR10076-apr12/',
+        'protein': 'EMPIAR10076_128',
+        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
         'val_dataset': '/usr/scratch/danial_stuff/FrugalCryo/Test/new_pipeline/combined/empiar10076_128_val_test_combined.pt'
     },
     {
         'protein': 'EMPIAR11526_128',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-128-empiar11526-apr12/',
+        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
         'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/val.mrcs'
     },
     {
         'protein': 'EMPIAR10166_128',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-128-EMPIAR10166-apr14/',
+        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
         'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/particles_val_normalized.mrcs'
     },
     {
         'protein': 'EMPIAR10786_128',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-128-EMPIAR10786-apr16/',
+        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
         'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs'
     },
 
     {
-        'protein': 'empiar10076_256',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-256-EMPIAR10076-apr16/',
+        'protein': 'EMPIAR10076_256',
+        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
         'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_256/empiar10076_raw_val_test_256_normalized.mrcs'
     },
 
     {
-        'protein': 'empiar10648_256',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-256-empiar10648-may3/',
+        'protein': 'EMPIAR10648_256',
+        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
         'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10648/particles_val_bicubic_256_normalized.mrcs'
     },
 ]
