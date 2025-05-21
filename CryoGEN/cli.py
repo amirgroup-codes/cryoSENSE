@@ -6,6 +6,7 @@ import argparse
 import os
 import torch
 from .main import CryoGEN
+from .config import get_recommended_params
 
 def main():
     """
@@ -27,17 +28,17 @@ def main():
     parser.add_argument('--mask_prob', type=float, default=0.5,
                         help='Probability for binary mask generation (default: 0.5)')
     parser.add_argument('--mask_type', type=str, default="random_binary",
-                        choices=["random_binary", "random_gaussian", "checkerboard", "moire"],
+                        choices=["random_binary", "random_gaussian", "checkerboard"],
                         help='Type of mask to use (default: "random_binary")')
-    parser.add_argument('--zeta_scale', type=float, default=1e-1,
-                        help='Scale factor for the measurement consistency gradient step size (default: 1e-1)')
-    parser.add_argument('--zeta_min', type=float, default=1e-2,
+    parser.add_argument('--zeta_scale', type=float, default=None,
+                        help='Scale factor for the measurement consistency gradient step size (default: auto-selected based on block_size)')
+    parser.add_argument('--zeta_min', type=float, default=None,
                         help='Initial scale factor for the measurement consistency gradient step size (default: 1e-2)')
     parser.add_argument('--num_timesteps', type=int, default=1000,
                         help='Number of diffusion timesteps for the sampling process (default: 1000)')
-    parser.add_argument('--beta', type=float, default=0.9,
+    parser.add_argument('--beta', type=float, default=None,
                         help='Final momentum factor for gradient updates (default: 0.9)')
-    parser.add_argument('--beta_min', type=float, default=0.1,
+    parser.add_argument('--beta_min', type=float, default=None,
                         help='Initial momentum factor for gradient updates (default: 0.1)')
     parser.add_argument('--start_id', type=int, default=0,
                         help='Starting index of the image range to process (default: 0)')
@@ -54,8 +55,32 @@ def main():
                         help='Device to use (default: cuda)')
     parser.add_argument('--verbose', action='store_true',
                         help='Enable verbose mode with detailed visualization outputs including all masks, measurements, and animated GIF of the diffusion process')
+    parser.add_argument('--use_config', action='store_true',
+                        help='Use recommended configuration parameters based on block size')
     
     args = parser.parse_args()
+    
+    # Get recommended parameters based on block size if requested
+    if args.use_config or args.zeta_scale is None or args.zeta_min is None or args.beta is None or args.beta_min is None:
+        print(f"Using recommended parameters for block_size={args.block_size}")
+        zeta_scale, zeta_min, beta, beta_min = get_recommended_params(args.block_size)
+        
+        # Only override if not explicitly provided
+        if args.zeta_scale is None:
+            args.zeta_scale = zeta_scale
+            print(f"Setting zeta_scale={args.zeta_scale}")
+        
+        if args.zeta_min is None:
+            args.zeta_min = zeta_min
+            print(f"Setting zeta_min={args.zeta_min}")
+        
+        if args.beta is None:
+            args.beta = beta
+            print(f"Setting beta={args.beta}")
+            
+        if args.beta_min is None:
+            args.beta_min = beta_min
+            print(f"Setting beta_min={args.beta_min}")
     
     # Create results directory
     os.makedirs(args.result_dir, exist_ok=True)

@@ -10,6 +10,7 @@ CryoGEN is a Python package for reconstructing CryoEM images using diffusion mod
 - Comprehensive reconstruction quality evaluation
 - Easy-to-use Python API and command-line interface
 - Verbose mode with detailed visualizations including GIF animations of the diffusion process
+- Configuration files for optimal parameters based on block size
 
 ## Installation
 
@@ -59,6 +60,15 @@ cryogen --model /path/to/ddpm/model \
         --end_id 0 \
         --result_dir ./verbose_results \
         --verbose
+
+# Using configuration files for optimal parameters
+cryogen --model /path/to/ddpm/model \
+        --cryoem_path /path/to/cryoem/data.pt \
+        --block_size 32 \
+        --use_config \
+        --start_id 0 \
+        --end_id 10 \
+        --result_dir ./config_results
 ```
 
 ### Python API
@@ -71,7 +81,8 @@ cryogen = CryoGEN(
     model_path="/path/to/ddpm/model",
     block_size=16,
     result_dir="./results",
-    verbose=True  # Enable detailed visualizations
+    verbose=True,  # Enable detailed visualizations
+    use_config=True  # Use recommended parameters from configuration files
 )
 
 # Reconstruct images from a CryoEM dataset
@@ -80,9 +91,8 @@ reconstructed_images, original_images, metrics = cryogen.reconstruct_from_cryoem
     image_ids=[0, 1, 2],  # Process images with these IDs
     num_masks=30,
     mask_type="random_binary",
-    num_timesteps=1000,
-    zeta_scale=0.1,
-    beta=0.9
+    num_timesteps=1000
+    # Parameters like zeta_scale and beta will be loaded from the configuration file
 )
 
 # Access reconstruction metrics
@@ -99,12 +109,12 @@ for metric in metrics:
 | `--block_size` | Block size for downsampling | 4 |
 | `--num_masks` | Number of binary masks to use | 30 |
 | `--mask_prob` | Probability for binary mask generation | 0.5 |
-| `--mask_type` | Type of mask to use (random_binary, random_gaussian, checkerboard, moire) | random_binary |
-| `--zeta_scale` | Scale factor for the gradient step size | 0.1 |
-| `--zeta_min` | Initial scale factor for the gradient step size | 0.01 |
+| `--mask_type` | Type of mask to use (random_binary, random_gaussian, checkerboard) | random_binary |
+| `--zeta_scale` | Scale factor for the gradient step size | (from config) |
+| `--zeta_min` | Initial scale factor for the gradient step size | (from config) |
 | `--num_timesteps` | Number of diffusion timesteps | 1000 |
-| `--beta` | Final momentum factor for updates | 0.9 |
-| `--beta_min` | Initial momentum factor for updates | 0.1 |
+| `--beta` | Final momentum factor for updates | (from config) |
+| `--beta_min` | Initial momentum factor for updates | (from config) |
 | `--start_id` | Starting index of images to process | 0 |
 | `--end_id` | Ending index of images to process | 0 |
 | `--batch_size` | Number of images to process in each batch | 1 |
@@ -112,6 +122,24 @@ for metric in metrics:
 | `--result_dir` | Directory to save results | results |
 | `--device` | Device to use (cuda or cpu) | cuda |
 | `--verbose` | Enable verbose mode with detailed visualizations | False |
+| `--use_config` | Use recommended configuration parameters based on block size | False |
+
+## Configuration Files
+
+CryoGEN includes configuration files with recommended parameters based on the block size. The system automatically selects the appropriate configuration based on your specified block size.
+
+### Recommended Parameters
+
+| Block Size | zeta_scale | zeta_min | beta | beta_min |
+|------------|------------|----------|------|----------|
+| 2, 4, 8, 16 | 1.0 | 1e-2 | 0.9 | 0.1 |
+| 32, 64 | 10.0 | 1e-2 | 0.9 | 0.1 |
+
+To use these recommended configurations, either:
+1. Pass `--use_config` on the command line, or
+2. Set `use_config=True` when creating a CryoGEN instance in code
+
+You can override any specific parameter by explicitly providing it, and the system will use the configuration value for any unspecified parameters.
 
 ## Verbose Mode Output
 

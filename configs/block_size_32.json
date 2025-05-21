@@ -1,0 +1,8 @@
+{
+    "block_size": 32,
+    "zeta_scale": 10.0,
+    "zeta_min": 1e-10,
+    "beta": 0.9,
+    "beta_min": 0.1,
+    "description": "Recommended parameters for block size 32"
+} 

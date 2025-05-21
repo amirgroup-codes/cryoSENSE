@@ -33,6 +33,8 @@ setup(
         "lpips>=0.1.4",
         "mrcfile>=1.4.0",
         "imageio>=2.9.0",
+        "accelerate>=1.7.0",
+        "pandas>=2.2.3",
     ],
     entry_points={
         "console_scripts": [

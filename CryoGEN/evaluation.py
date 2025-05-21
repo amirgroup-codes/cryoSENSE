@@ -48,36 +48,6 @@ def plot_measurements_and_original(original_image, measurements, masks, result_d
         plt.axis('off')
         plt.savefig(f"{result_dir}/original_image_{b}.png", bbox_inches='tight', pad_inches=0)
         plt.close()
-        
-        # Save individual masks
-        for i in range(min(5, len(masks))):  # Save only first 5 masks to avoid clutter
-            mask = masks[i].cpu().numpy()
-            
-            plt.figure(figsize=(8, 8), frameon=False)
-            plt.imshow(mask, cmap='gray')
-            plt.axis('off')
-            plt.savefig(f"{result_dir}/masks/mask_{i}.png", bbox_inches='tight', pad_inches=0)
-            plt.close()
-        
-        # Save individual measurements
-        for i in range(min(5, len(measurements))):  # Save only first 5 measurements
-            # Get the measurement for this mask
-            meas = measurements[i][b]
-            
-            # Convert from arbitrary range to [0, 1] for visualization
-            meas_vis = (meas - meas.min()) / (meas.max() - meas.min() + 1e-8)
-            
-            plt.figure(figsize=(8, 8), frameon=False)
-            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-            
-            if meas.shape[0] == 1:  # Single channel
-                plt.imshow(meas_vis[0].cpu().numpy(), cmap='gray')
-            else:  # RGB (show first channel only for simplicity)
-                plt.imshow(meas_vis[0].cpu().numpy(), cmap='gray')
-            
-            plt.axis('off')
-            plt.savefig(f"{result_dir}/measurements/measurement_{i}.png", bbox_inches='tight', pad_inches=0)
-            plt.close()
 
 def analyze_reconstruction(original_image_batch, reconstructed_image_batch, target_measurements_batch, 
                            masks, block_size, current_batch_ids=None, result_dir="results", experiment_params=None):

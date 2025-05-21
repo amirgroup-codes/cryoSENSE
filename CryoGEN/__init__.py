@@ -7,6 +7,7 @@ from .core import measurement_operator, cryogen_sampling
 from .masks import create_binary_masks
 from .data import load_cryoem_image, load_cryoem_batch, add_gaussian_noise
 from .evaluation import analyze_reconstruction, plot_measurements_and_original
+from .config import get_recommended_params, load_config
 
 __version__ = "0.1.0"
 
@@ -20,4 +21,6 @@ __all__ = [
     'add_gaussian_noise',
     'analyze_reconstruction',
     'plot_measurements_and_original',
-] 
+    'get_recommended_params',
+    'load_config',
+]

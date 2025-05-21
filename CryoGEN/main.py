@@ -15,20 +15,22 @@ from .core import measurement_operator, cryogen_sampling
 from .masks import create_binary_masks
 from .data import load_cryoem_image, load_cryoem_batch, add_gaussian_noise
 from .evaluation import plot_measurements_and_original, analyze_reconstruction
+from .config import get_recommended_params, load_config
 
 class CryoGEN:
     """
     Main class for using the CryoGEN algorithm for CryoEM image reconstruction.
     """
     
-    def __init__(self, 
+    def __init__(self,
                  model_path=None,
-                 block_size=4, 
+                 block_size=4,
                  img_size=None,
                  in_channels=None,
                  device="cuda",
                  result_dir="results",
-                 verbose=False):
+                 verbose=False,
+                 use_config=True):
         """
         Initialize the CryoGEN model.
         
@@ -40,11 +42,22 @@ class CryoGEN:
             device: Computation device (cuda or cpu)
             result_dir: Directory to save results
             verbose: Enable verbose output and visualization
+            use_config: Use recommended configuration from file based on block_size
         """
         self.block_size = block_size
         self.device = device if torch.cuda.is_available() else "cpu"
         self.result_dir = result_dir
         self.verbose = verbose
+        self.use_config = use_config
+        
+        # Load recommended parameters if requested
+        if self.use_config:
+            config = load_config(block_size=self.block_size)
+            self.zeta_scale = config.get("zeta_scale", 1.0 if block_size <= 16 else 10.0)
+            self.zeta_min = config.get("zeta_min", 1e-2)
+            self.beta = config.get("beta", 0.9)
+            self.beta_min = config.get("beta_min", 0.1)
+            print(f"Loaded recommended parameters from configuration: zeta_scale={self.zeta_scale}, zeta_min={self.zeta_min}, beta={self.beta}, beta_min={self.beta_min}")
         
         # Create results directory
         os.makedirs(self.result_dir, exist_ok=True)
@@ -88,6 +101,7 @@ class CryoGEN:
         print(f"  - Output size after downsampling: {self.output_size}x{self.output_size}")
         print(f"  - Device: {self.device}")
         print(f"  - Verbose mode: {'Enabled' if self.verbose else 'Disabled'}")
+        print(f"  - Using config: {'Yes' if self.use_config else 'No'}")
         print(f"  - Results directory: {self.result_dir}")
     
     def load_model(self, model_path):
@@ -138,7 +152,8 @@ class CryoGEN:
             mask_dir = os.path.join(self.result_dir, "masks")
             os.makedirs(mask_dir, exist_ok=True)
             
-            for i in range(len(masks)):
+            # Show only 10 masks
+            for i in range(min(10, len(masks))):
                 mask = masks[i].cpu().numpy()
                 
                 plt.figure(figsize=(8, 8), frameon=False)
@@ -167,8 +182,8 @@ class CryoGEN:
         
         # Process each image in the batch
         for b in range(batch_size):
-            # Save all measurements for this image
-            for i in range(len(measurements)):
+            # Save all measurements for this image (only show first 10)
+            for i in range(min(10, len(measurements))):
                 # Get the measurement for this mask
                 meas = measurements[i][b]
                 
@@ -297,10 +312,10 @@ class CryoGEN:
                          masks, 
                          batch_size=1, 
                          num_timesteps=1000, 
-                         zeta_scale=1e-1, 
-                         zeta_min=1e-2, 
-                         beta=0.9, 
-                         beta_min=0.1,
+                         zeta_scale=None, 
+                         zeta_min=None, 
+                         beta=None, 
+                         beta_min=None,
                          image_ids=None):
         """
         Reconstruct images from measurements using CryoGEN.
@@ -322,6 +337,20 @@ class CryoGEN:
         if self.unet is None or self.scheduler is None:
             raise ValueError("DDPM model not loaded. Call load_model() first or initialize with a model_path.")
         
+        # Use parameters from config if available and not provided
+        if self.use_config:
+            zeta_scale = zeta_scale if zeta_scale is not None else self.zeta_scale
+            zeta_min = zeta_min if zeta_min is not None else self.zeta_min
+            beta = beta if beta is not None else self.beta
+            beta_min = beta_min if beta_min is not None else self.beta_min
+        else:
+            # Default values if not provided and not using config
+            zeta_scale = zeta_scale if zeta_scale is not None else (1.0 if self.block_size <= 16 else 10.0)
+            zeta_min = zeta_min if zeta_min is not None else 1e-2
+            beta = beta if beta is not None else 0.9
+            beta_min = beta_min if beta_min is not None else 0.1
+            
+        print(f"Reconstruction parameters: zeta_scale={zeta_scale}, zeta_min={zeta_min}, beta={beta}, beta_min={beta_min}")
         print("Starting image reconstruction with CryoGEN...")
         
         # Create callback for saving diffusion steps if in verbose mode
@@ -384,10 +413,10 @@ class CryoGEN:
                                mask_type="random_binary", 
                                noise_level=0.0,
                                num_timesteps=1000, 
-                               zeta_scale=1e-1, 
-                               zeta_min=1e-2, 
-                               beta=0.9, 
-                               beta_min=0.1):
+                               zeta_scale=None, 
+                               zeta_min=None, 
+                               beta=None, 
+                               beta_min=None):
         """
         End-to-end pipeline to reconstruct CryoEM images.
         
