@@ -191,7 +191,7 @@ The `reconstruct_all_images.py` script can be used for reconstructing all images
 - Generates comprehensive metrics for all processed images
 - Supports various input formats including PyTorch tensors and MRC files
 
-## Pretrained Models
+# Pretrained Models
 
 The following DDPM models are available on Huggingface and can be used directly with CryoGEN:
 
@@ -208,20 +208,6 @@ You can specify these models directly in the command line or API calls without d
 ```bash
 cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 --cryoem_path /path/to/data
 ```
-
-## Datasets
-
-The following datasets are available on Huggingface:
-
-| Dataset  | Description |
-|-------|-------------------------|
-| anonymousneurips008/3D_Volumes_EMPIAR10076 | 3D volumes of EMPIAR10076 |
-| anonymousneurips008/3D_Volumes_EMPIAR10648 | 3D volumes of EMPIAR10648 |
-| anonymousneurips008/EMPIAR10076_128x128 | EMPIAR10076 128x128 Images |
-| anonymousneurips008/EMPIAR11526_128x128 | EMPIAR11526 128x128 Images |
-| anonymousneurips008/EMPIAR10166_128x128 | EMPIAR10166 128x128 Images |
-| anonymousneurips008/EMPIAR10786_128x128 | EMPIAR10786 128x128 Images |
-| anonymousneurips008/EMPIAR10648_256x256 | EMPIAR10648 256x256 Images |
 
 ## Command-line Options
 
@@ -296,6 +282,29 @@ Regardless of whether verbose mode is enabled, CryoGEN always saves:
 - matplotlib 3.10.3
 - imageio 2.37.0
 - CUDA-capable GPU (recommended)
+
+
+# Datasets
+
+The following datasets are available on Huggingface:
+
+| Dataset  | Description |
+|-------|-------------------------|
+| anonymousneurips008/3D_Volumes_EMPIAR10076 | 3D volumes of EMPIAR10076 |
+| anonymousneurips008/3D_Volumes_EMPIAR10648 | 3D volumes of EMPIAR10648 |
+| anonymousneurips008/EMPIAR10076_128x128 | EMPIAR10076 128x128 Images |
+| anonymousneurips008/EMPIAR11526_128x128 | EMPIAR11526 128x128 Images |
+| anonymousneurips008/EMPIAR10166_128x128 | EMPIAR10166 128x128 Images |
+| anonymousneurips008/EMPIAR10786_128x128 | EMPIAR10786 128x128 Images |
+| anonymousneurips008/EMPIAR10648_256x256 | EMPIAR10648 256x256 Images |
+
+# Comparative Methods
+
+You can find the code for running the comparative method reconstruction experiments in the `comparative_methods/` directory. For detailed instructions, please refer to the `comparative_methods/README.md` file.
+
+# Comparative Methods
+
+The scripts and data for analyzing and visualizing the experimental results are located in the `experimental_results/` directory. For more details, refer to the `experimental_results/README.md` file.
 
 ## License
 
