@@ -283,4 +283,4 @@ The training scripts located in the `training/` directory have been adapted for 
 
 ## License
 
-MIT License
+Apache 2.0
