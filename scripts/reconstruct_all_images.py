@@ -15,8 +15,9 @@ import time
 import torch
 import multiprocessing
 import mrcfile
+import urllib.request
 
-# Configuration for reconstruction
+# Configuration for reconstruction (Change the block-size and number of masks)
 default_result_dir = 'results/all_images'
 default_gpu_ids = [0, 1, 2, 3]
 default_batch_size = 16
@@ -27,9 +28,36 @@ default_mask_type = 'random_binary'
 # Experiments collection
 experiments = [
     {
-        'protein': 'empiar10076_128',
+        'protein': 'EMPIAR10076_128',
         'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
-        'val_dataset': '/usr/scratch/danial_stuff/FrugalCryo/Test/new_pipeline/combined/empiar10076_128_val_test_combined.pt'
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
+    },
+    {
+        'protein': 'EMPIAR11526_128',
+        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
+    },
+    {
+        'protein': 'EMPIAR10166_128',
+        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
+    },
+    {
+        'protein': 'EMPIAR10786_128',
+        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
+       'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
+    },
+
+    {
+        'protein': 'EMPIAR10076_256',
+        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
+    },
+
+    {
+        'protein': 'EMPIAR10648_256',
+        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
     },
     # Additional datasets can be added here
     # {
@@ -39,8 +67,43 @@ experiments = [
     # },
 ]
 
+def download_dataset(url, save_path):
+    """Download dataset from a URL to the specified save path"""
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    print(f"Downloading dataset from {url} to {save_path}")
+    try:
+        urllib.request.urlretrieve(url, save_path)
+        print(f"Download complete: {save_path}")
+        return save_path
+    except Exception as e:
+        print(f"Error downloading dataset: {e}")
+        return None
+
 def count_images_in_dataset(dataset_path):
     """Count the number of images in the dataset"""
+    # If dataset is a URL, download it first
+    if dataset_path.startswith('http://') or dataset_path.startswith('https://'):
+        # Extract protein name from path (assuming path contains protein name)
+        protein_name = os.path.basename(dataset_path).split('_')[0]
+        data_dir = os.path.join('data', protein_name)
+        os.makedirs(data_dir, exist_ok=True)
+        
+        # Get filename from URL
+        filename = os.path.basename(dataset_path)
+        local_path = os.path.join(data_dir, filename)
+        
+        # Download only if the file doesn't already exist
+        if not os.path.exists(local_path):
+            local_path = download_dataset(dataset_path, local_path)
+            if local_path is None:
+                print(f"Failed to download dataset, cannot count images")
+                return 0
+        else:
+            print(f"Using existing downloaded dataset: {local_path}")
+        
+        # Update dataset path to use the local path
+        dataset_path = local_path
+
     if dataset_path.endswith('.pt'):
         dataset = torch.load(dataset_path, map_location='cpu')
         return len(dataset)
@@ -58,12 +121,36 @@ def run_gpu_job(gpu_id, start_id, end_id, experiment, protein_result_dir,
     # Create log file for detailed output
     log_file = os.path.join(protein_result_dir, f"gpu_{gpu_id}_log.txt")
     
+    # Check if dataset is a URL, download it if necessary
+    dataset_path = experiment['val_dataset']
+    if dataset_path.startswith('http://') or dataset_path.startswith('https://'):
+        protein_name = experiment['protein']
+        # Create data directory for protein
+        data_dir = os.path.join('data', protein_name)
+        os.makedirs(data_dir, exist_ok=True)
+        
+        # Get filename from URL
+        filename = os.path.basename(dataset_path)
+        local_path = os.path.join(data_dir, filename)
+        
+        # Download only if the file doesn't already exist
+        if not os.path.exists(local_path):
+            local_path = download_dataset(dataset_path, local_path)
+            if local_path is None:
+                print(f"Failed to download dataset for {protein_name}, aborting job")
+                return False
+        else:
+            print(f"Using existing downloaded dataset: {local_path}")
+        
+        # Update dataset path to use the local path
+        dataset_path = local_path
+    
     # Construct and run the command with output redirection
     cmd = [
         f'CUDA_VISIBLE_DEVICES={gpu_id}',
         'cryogen',
         '--model', experiment['model'],
-        '--cryoem_path', experiment['val_dataset'],
+        '--cryoem_path', dataset_path,
         '--start_id', str(start_id),
         '--end_id', str(end_id),
         '--result_dir', protein_result_dir,

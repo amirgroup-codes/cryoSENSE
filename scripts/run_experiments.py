@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script for running experiments with different parameters for CryoGEN.
-Performs grid search across block sizes, number of masks, mask types, and noise levels.
+Performs experiments across block sizes, number of masks, mask types, and noise levels and measures the performance 
 """
 
 import itertools
@@ -24,7 +24,7 @@ torch.manual_seed(42)
 np.random.seed(42)
 random.seed(42)
 
-# Default parameters for grid search
+# Default parameters for experiments
 default_block_sizes = [2, 4, 8, 16, 32]
 default_max_masks_per_block = [4, 16, 64, 256, 1024]  # Maximum masks for each block size
 default_undersampling_factors = [0.25, 0.1, 0.1, 0.1, 0.1]  # Factor for each block size
@@ -34,8 +34,6 @@ default_gpu_ids = [0]
 
 # Default datasets
 datasets = [
-
-    # Make sure to download the data from the links included in the README.md file and update the paths belo.
     {
         'protein': 'EMPIAR10076_128',
         'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
@@ -402,7 +400,7 @@ def main():
         print("No valid experiments to run")
         return
     
-    # Generate parameter combinations for grid search
+    # Generate parameter combinations for experiments
     parameter_combinations = []
     for block_idx, block_size in enumerate(default_block_sizes):
         # Get corresponding factors for this block size
