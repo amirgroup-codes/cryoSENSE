@@ -269,7 +269,7 @@ When the `--verbose` flag is enabled, CryoGEN will generate and save:
 2. All measurement images for each mask
 3. Reconstructed images in PNG format
 4. Comparison images showing original, reconstructed, and error maps
-5. A GIF animation showing the diffusion process from t=1000 to t=1
+5. A GIF animation showing the diffusion process from T=1000 to T=1
 
 Regardless of whether verbose mode is enabled, CryoGEN always saves:
 - Raw reconstructed image tensors (.pt files)
