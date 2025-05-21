@@ -1,0 +1,9 @@
+----- Reconstruction Quality for Image 13 -----
+MSE: 0.064320
+MAE: 0.191786
+PSNR: 17.94 dB
+SSIM: 0.3650
+LPIPS: 0.2123
+L2 Norm Distance: 32.462551
+Average Measurement MSE: 0.000005
+Noise Level (sigma): 0.000000

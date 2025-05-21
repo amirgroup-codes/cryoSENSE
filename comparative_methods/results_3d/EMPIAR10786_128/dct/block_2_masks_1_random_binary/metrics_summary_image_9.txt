@@ -1,0 +1,9 @@
+----- Reconstruction Quality for Image 9 -----
+MSE: 0.055631
+MAE: 0.179479
+PSNR: 18.57 dB
+SSIM: 0.3926
+LPIPS: 0.1891
+L2 Norm Distance: 30.190361
+Average Measurement MSE: 0.000007
+Noise Level (sigma): 0.000000

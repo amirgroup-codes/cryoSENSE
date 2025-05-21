@@ -1,0 +1,177 @@
+Results will be saved to: results/EMPIAR10786_128/dct/block_2_masks_1_random_binary
+Loading pipeline components...:   0%|          | 0/2 [00:00<?, ?it/s]The config attributes {'mid_block_type': 'UNetMidBlock2D'} were passed to UNet2DModel, but are not expected and will be ignored. Please verify your config.json configuration file.
+Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 16.96it/s]Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 16.93it/s]
+/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+
+Batch 1/1: IDs [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+Loading batch of CryoEM data from results/EMPIAR10786_128/selected_images.pt...
+CryoEM data loaded successfully from .pt file. Data shape: torch.Size([16, 128, 128])
+Selected batch size: 16
+Selected batch shape: torch.Size([16, 128, 128])
+Batch normalized from [0, 1] to [-1, 1] range
+NOISE LEVEL 0.0
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+
+----- Analyzing reconstruction for image 0 -----
+MSE: 0.059614
+MAE: 0.186099
+PSNR: 18.27 dB
+SSIM: 0.3315
+LPIPS: 0.1601
+L2 Norm Distance: 31.252569
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 1 -----
+MSE: 0.066908
+MAE: 0.198712
+PSNR: 17.77 dB
+SSIM: 0.3550
+LPIPS: 0.1653
+L2 Norm Distance: 33.109207
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 2 -----
+MSE: 0.070666
+MAE: 0.203841
+PSNR: 17.53 dB
+SSIM: 0.3367
+LPIPS: 0.1573
+L2 Norm Distance: 34.026234
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 3 -----
+MSE: 0.067828
+MAE: 0.200254
+PSNR: 17.71 dB
+SSIM: 0.3301
+LPIPS: 0.1775
+L2 Norm Distance: 33.336128
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 4 -----
+MSE: 0.060633
+MAE: 0.188375
+PSNR: 18.19 dB
+SSIM: 0.3470
+LPIPS: 0.1710
+L2 Norm Distance: 31.518360
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 5 -----
+MSE: 0.058866
+MAE: 0.186342
+PSNR: 18.32 dB
+SSIM: 0.3430
+LPIPS: 0.1865
+L2 Norm Distance: 31.055723
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 6 -----
+MSE: 0.061850
+MAE: 0.190088
+PSNR: 18.11 dB
+SSIM: 0.3427
+LPIPS: 0.1361
+L2 Norm Distance: 31.833134
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 7 -----
+MSE: 0.058952
+MAE: 0.185376
+PSNR: 18.32 dB
+SSIM: 0.3474
+LPIPS: 0.1569
+L2 Norm Distance: 31.078363
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 8 -----
+MSE: 0.067134
+MAE: 0.198812
+PSNR: 17.75 dB
+SSIM: 0.3418
+LPIPS: 0.1753
+L2 Norm Distance: 33.165058
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 9 -----
+MSE: 0.063434
+MAE: 0.193104
+PSNR: 18.00 dB
+SSIM: 0.3524
+LPIPS: 0.1871
+L2 Norm Distance: 32.238281
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 10 -----
+MSE: 0.061770
+MAE: 0.189904
+PSNR: 18.11 dB
+SSIM: 0.3302
+LPIPS: 0.1783
+L2 Norm Distance: 31.812630
+Average Measurement MSE: 0.000006
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 11 -----
+MSE: 0.057908
+MAE: 0.184005
+PSNR: 18.39 dB
+SSIM: 0.3464
+LPIPS: 0.1622
+L2 Norm Distance: 30.801931
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 12 -----
+MSE: 0.058681
+MAE: 0.185025
+PSNR: 18.34 dB
+SSIM: 0.3618
+LPIPS: 0.1906
+L2 Norm Distance: 31.006977
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 13 -----
+MSE: 0.068006
+MAE: 0.199087
+PSNR: 17.70 dB
+SSIM: 0.3490
+LPIPS: 0.1824
+L2 Norm Distance: 33.379696
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 14 -----
+MSE: 0.062591
+MAE: 0.191231
+PSNR: 18.06 dB
+SSIM: 0.3522
+LPIPS: 0.1789
+L2 Norm Distance: 32.023243
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 15 -----
+MSE: 0.064033
+MAE: 0.193961
+PSNR: 17.96 dB
+SSIM: 0.3524
+LPIPS: 0.1587
+L2 Norm Distance: 32.389977
+Average Measurement MSE: 0.000007
+Metrics saved to results/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv

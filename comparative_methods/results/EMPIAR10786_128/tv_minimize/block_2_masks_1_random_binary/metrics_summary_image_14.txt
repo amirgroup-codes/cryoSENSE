@@ -1,0 +1,9 @@
+----- Reconstruction Quality for Image 14 -----
+MSE: 0.052189
+MAE: 0.175260
+PSNR: 18.84 dB
+SSIM: 0.3858
+LPIPS: 0.4913
+L2 Norm Distance: 29.241396
+Average Measurement MSE: 0.000063
+Noise Level (sigma): 0.000000

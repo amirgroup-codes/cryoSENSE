@@ -1,0 +1,119 @@
+Results will be saved to: results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary
+Loading pipeline components...:   0%|          | 0/2 [00:00<?, ?it/s]The config attributes {'mid_block_type': 'UNetMidBlock2D'} were passed to UNet2DModel, but are not expected and will be ignored. Please verify your config.json configuration file.
+Loading pipeline components...:  50%|█████     | 1/2 [00:00<00:00,  9.07it/s]Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 16.91it/s]
+/usr/scratch/danial_stuff/FrugalCryo/Test/baselines/CryoGEN/comparative_methods/../CryoGEN/data.py:108: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  cryoem_data = torch.from_numpy(mrc.data).to('cpu')
+/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+
+Batch 1/1: IDs [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Loading batch of CryoEM data from /usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs...
+CryoEM data loaded successfully from .mrcs file. Data shape: torch.Size([28866, 128, 128])
+Selected batch size: 10
+Selected batch shape: torch.Size([10, 128, 128])
+Batch normalized from [0, 1] to [-1, 1] range
+NOISE LEVEL 0.0
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+
+----- Analyzing reconstruction for image 0 -----
+MSE: 0.059367
+MAE: 0.186062
+PSNR: 18.29 dB
+SSIM: 0.3404
+LPIPS: 0.1678
+L2 Norm Distance: 31.187544
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 1 -----
+MSE: 0.055164
+MAE: 0.180079
+PSNR: 18.60 dB
+SSIM: 0.3603
+LPIPS: 0.1336
+L2 Norm Distance: 30.063492
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 2 -----
+MSE: 0.054427
+MAE: 0.178510
+PSNR: 18.66 dB
+SSIM: 0.3613
+LPIPS: 0.1644
+L2 Norm Distance: 29.861938
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 3 -----
+MSE: 0.067337
+MAE: 0.198029
+PSNR: 17.74 dB
+SSIM: 0.3375
+LPIPS: 0.1698
+L2 Norm Distance: 33.215195
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 4 -----
+MSE: 0.075940
+MAE: 0.210942
+PSNR: 17.22 dB
+SSIM: 0.3253
+LPIPS: 0.1845
+L2 Norm Distance: 35.273254
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 5 -----
+MSE: 0.060350
+MAE: 0.188118
+PSNR: 18.21 dB
+SSIM: 0.3360
+LPIPS: 0.1735
+L2 Norm Distance: 31.444809
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 6 -----
+MSE: 0.058967
+MAE: 0.185751
+PSNR: 18.31 dB
+SSIM: 0.3379
+LPIPS: 0.1923
+L2 Norm Distance: 31.082361
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 7 -----
+MSE: 0.070805
+MAE: 0.203009
+PSNR: 17.52 dB
+SSIM: 0.3508
+LPIPS: 0.1910
+L2 Norm Distance: 34.059742
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 8 -----
+MSE: 0.064683
+MAE: 0.194278
+PSNR: 17.91 dB
+SSIM: 0.3580
+LPIPS: 0.1662
+L2 Norm Distance: 32.554173
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv
+
+----- Analyzing reconstruction for image 9 -----
+MSE: 0.055631
+MAE: 0.179479
+PSNR: 18.57 dB
+SSIM: 0.3926
+LPIPS: 0.1891
+L2 Norm Distance: 30.190361
+Average Measurement MSE: 0.000007
+Metrics saved to results_3d/EMPIAR10786_128/dct/block_2_masks_1_random_binary/reconstruction_metrics.csv

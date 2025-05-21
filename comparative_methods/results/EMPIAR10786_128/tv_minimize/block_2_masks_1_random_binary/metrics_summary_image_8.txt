@@ -1,0 +1,9 @@
+----- Reconstruction Quality for Image 8 -----
+MSE: 0.054666
+MAE: 0.179013
+PSNR: 18.64 dB
+SSIM: 0.3865
+LPIPS: 0.5418
+L2 Norm Distance: 29.927353
+Average Measurement MSE: 0.000064
+Noise Level (sigma): 0.000000

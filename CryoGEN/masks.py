@@ -49,8 +49,11 @@ def create_binary_masks(num_masks=30, mask_prob=0.5, mask_type="random_binary", 
         A = torch.randn(num_masks, img_size, img_size, device=device)
         A /= A.pow(2).sum(dim=0, keepdim=True).sqrt()   # column normalize
         masks = A
+
+    elif mask_type == "superres":
+        masks = torch.ones((num_masks, img_size, img_size), device=device)
     
     else:
-        raise ValueError(f"Unknown mask type: {mask_type}. Choose 'random_binary', 'random_gaussian', 'checkerboard', or 'moire'.")
+        raise ValueError(f"Unknown mask type: {mask_type}. Choose 'random_binary', 'random_gaussian', 'checkerboard', or 'superres'.")
     
     return masks 

@@ -1,0 +1,9 @@
+----- Reconstruction Quality for Image 12 -----
+MSE: 0.058681
+MAE: 0.185025
+PSNR: 18.34 dB
+SSIM: 0.3618
+LPIPS: 0.1906
+L2 Norm Distance: 31.006977
+Average Measurement MSE: 0.000007
+Noise Level (sigma): 0.000000
