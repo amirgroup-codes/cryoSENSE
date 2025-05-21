@@ -4,16 +4,6 @@ Deep generative models have recently shown promise as priors for solving inverse
 
 CryoGEN is a generative model for solving the cryo-EM inverse problem of reconstructing biologically accurate high-resolution images from compressed, low-resolution linear measurements. CryoGEN couples an unconditional denoising diffusion probabilistic model (DDPM) trained on cryo-EM data with Nesterov-accelerated gradients to steer the reverse diffusion toward a solution consistent with the compressed measurements. We demonstrate that CryoGEN enables high-resolution recovery from inputs up to 32× lower resolution. Furthermore, CryoGEN reconstructions preserve the critical structural information required for downstream analysis, including atomic model building and conformational heterogeneity analysis.
 
-## Features
-
-- Efficient measurement and reconstruction of CryoEM images
-- Support for various mask types (random binary, random Gaussian, checkerboard, moiré patterns)
-- Batch processing of multiple images
-- Comprehensive reconstruction quality evaluation
-- Easy-to-use Python API and command-line interface
-- Verbose mode with detailed visualizations including GIF animations of the diffusion process
-- Configuration files for optimal parameters based on block size
-
 ## Installation
 
 ### From PyPI (recommended)
