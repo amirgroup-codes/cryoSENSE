@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="logo.png" width="100">
+<img src="logo.png" width="300">
 
 ![Python](https://img.shields.io/badge/python-3.13.2-blue.svg)
 ![PyTorch](https://img.shields.io/badge/pytorch-2.7.0-red.svg)
