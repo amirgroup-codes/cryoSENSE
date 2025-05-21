@@ -323,7 +323,7 @@ cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 \
 | `--verbose` | Enable verbose mode with detailed visualizations | `False` |
 | `--use_config` | Use recommended configuration parameters | `False` |
 
-### 🎭 Mask Types Available:
+### Mask Types Available:
 - `random_binary`: Random binary masks
 - `random_gaussian`: Random Gaussian masks  
 - `checkerboard`: Checkerboard pattern masks
@@ -364,7 +364,7 @@ To use these recommended configurations, either:
 When the `--verbose` flag is enabled, CryoGEN will generate and save:
 
 ### 📸 Generated Visualizations:
-1. **🎭 All binary masks** used for measurements
+1. **All binary masks** used for measurements
 2. **📏 All measurement images** for each mask
 3. **🖼️ Reconstructed images** in PNG format
 4. **📊 Comparison images** showing original, reconstructed, and error maps
