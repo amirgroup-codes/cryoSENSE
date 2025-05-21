@@ -168,8 +168,8 @@ Key parameters:
 For Figure 2b, Figure 4a volumes, and Figure 2c, Figure 4b FSC plots:
 - Volumes were generated using the CryoDRGN backprojection method via the `cryodrgn backproject` command
 - The backprojection command also generated the data for generating FSC plots
-- The 3D volumes in Figure 2b can be found in our [HuggingFace repository]([https://huggingface.co/anonymousneurips008/CryoDRGN_model_weights/tree/main](https://huggingface.co/datasets/anonymousneurips008/3D_Volumes_EMPIAR10076))
-- The 3D volumes in Figure 4a can be found in our [HuggingFace repository]([https://huggingface.co/anonymousneurips008/CryoDRGN_model_weights/tree/main](https://huggingface.co/datasets/anonymousneurips008/3D_Volumes_EMPIAR10648))
+- The 3D volumes in Figure 2b can be found in our [HuggingFace repository](https://huggingface.co/datasets/anonymousneurips008/3D_Volumes_EMPIAR10076)
+- The 3D volumes in Figure 4a can be found in our [HuggingFace repository](https://huggingface.co/datasets/anonymousneurips008/3D_Volumes_EMPIAR10648)
 
 ### ModelAngelo Atomic Structure Models
 
