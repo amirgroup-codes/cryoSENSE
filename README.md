@@ -252,8 +252,8 @@ CryoGEN includes configuration files with recommended parameters based on the bl
 
 | Block Size | zeta_scale | zeta_min | beta | beta_min |
 |------------|------------|----------|------|----------|
-| 2, 4, 8, 16 | 1.0 | 1e-2 | 0.9 | 0.1 |
-| 32, 64 | 10.0 | 1e-2 | 0.9 | 0.1 |
+| 2, 4, 8, 16 | 1.0 | 1e-10 | 0.9 | 0.1 |
+| 32, 64 | 10.0 | 1e-10 | 0.9 | 0.1 |
 
 To use these recommended configurations, either:
 1. Pass `--use_config` on the command line, or
