@@ -1,5 +1,7 @@
 # CryoGEN: CryoEM Image Reconstruction with Diffusion Models
 
+<img src="logo.png" width="100">
+
 Deep generative models have recently shown promise as priors for solving inverse problems, enabling image recovery without reliance on sparsity assumptions on a pre-defined basis. Diffusion models, in particular, have enabled super-resolution, inpainting, and deblurring of natural images by learning data distributions over low-dimensional image manifolds. However, scientific imaging modalities, such as cryo-electron microscopy (cryo-EM), demand accurate rather than merely perceptually plausible reconstructions, as visually minor errors can lead to incorrect structural interpretations. 
 
 CryoGEN is a generative model for solving the cryo-EM inverse problem of reconstructing biologically accurate high-resolution images from compressed, low-resolution linear measurements. CryoGEN couples an unconditional denoising diffusion probabilistic model (DDPM) trained on cryo-EM data with Nesterov-accelerated gradients to steer the reverse diffusion toward a solution consistent with the compressed measurements. We demonstrate that CryoGEN enables high-resolution recovery from inputs up to 32× lower resolution. Furthermore, CryoGEN reconstructions preserve the critical structural information required for downstream analysis, including atomic model building and conformational heterogeneity analysis.
