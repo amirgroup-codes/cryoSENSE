@@ -21,71 +21,57 @@ import json
 # -------------------------------
 # Experiment Configuration
 # -------------------------------
-block_sizes = [2]
-max_masks_per_block = [1]
-undersampling_factors_per_block = [1]
+block_sizes = [2, 4, 8, 16, 32]
+max_masks_per_block = [4, 16, 64, 256, 1024]  # Maximum masks for each block size
+undersampling_factors_per_block = [0.25, 0.1, 0.1, 0.1, 0.1]  # Factor for each block size
 mask_types = ['random_binary']
-noise_levels = [0]#, 0.1]
-baselines = ['dct', 'wavelet', 'tv_minimize', 'dmplug']
-
-# block_sizes = [2, 4, 8, 16, 32]
-# max_masks_per_block = [4, 16, 64, 256, 1024]  # Maximum masks for each block size
-# undersampling_factors_per_block = [0.25, 0.1, 0.1, 0.1, 0.1]  # Factor for each block size
-# mask_types = ['random_binary']
-# noise_levels = [0.0, 0.1]  # No noise or moderate noise
-# baselines = ['dct']  # Options: 'wavelet', 'tv_minimize', 'dct', 'dmplug'
+noise_levels = [0.0, 0.1]  # No noise or moderate noise
+baselines = ['dct']  # Options: 'wavelet', 'tv_minimize', 'dct', 'dmplug'
 
 # Grid search hyperparameters
-lambdas = [1e-1, 1e-2]#, 1e-3, 1e-4]
-learning_rates = [0.5, 1] #[1e-3]#, 1e-2, 1e-1, 0.5, 1]
+lambdas = [1e-1, 1e-2, 1e-3, 1e-4]
+learning_rates = [1e-3, 1e-2, 1e-1, 0.5, 1]
 
 experiments = [
 
     # Make sure to download the data from the links included in the README.md file and update the paths belo.
-    # {
-    #     'protein': 'EMPIAR10076_128',
-    #     'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
-    #     'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_128/train.mrcs'
-    #     'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_128/val.mrcs'
-    # },
-    # {
-    #     'protein': 'EMPIAR11526_128',
-    #     'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
-    #     'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/train.mrcs',
-    #     'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/val.mrcs'
-    # },
-    # {
-    #     'protein': 'EMPIAR10166_128',
-    #     'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
-    #     'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/data/data_treated_128/train.mrcs',
-    #     'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/particles_val_normalized.mrcs'
-    # },
-    # {
-    #     'protein': 'EMPIAR10786_128',
-    #     'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
-    #     'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/data/data_treated_128/train.mrcs',
-    #     'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs'
-    # },
-    # {
-    #     'protein': 'EMPIAR10076_256',
-    #     'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
-    #     'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_256/train.mrcs',
-    #     'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_256/empiar10076_raw_val_test_256_normalized.mrcs'
-    # },
-    # {
-    #     'protein': 'EMPIAR10648_256',
-    #     'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
-    #     'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar106486/data/data_treated_256/train.mrcs',
-    #     'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10648/particles_val_bicubic_256_normalized.mrcs'
-    # },
-
-    # Testing
+    {
+        'protein': 'EMPIAR10076_128',
+        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
+        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_128/train.mrcs',
+        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_128/val.mrcs'
+    },
+    {
+        'protein': 'EMPIAR11526_128',
+        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
+        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/train.mrcs',
+        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/val.mrcs'
+    },
+    {
+        'protein': 'EMPIAR10166_128',
+        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
+        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/data/data_treated_128/train.mrcs',
+        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/particles_val_normalized.mrcs'
+    },
     {
         'protein': 'EMPIAR10786_128',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-128-EMPIAR10786-apr16/',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_train_normalized.mrcs',
+        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
+        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/data/data_treated_128/train.mrcs',
         'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs'
+    },
+    {
+        'protein': 'EMPIAR10076_256',
+        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
+        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_256/train.mrcs',
+        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_256/empiar10076_raw_val_test_256_normalized.mrcs'
+    },
+    {
+        'protein': 'EMPIAR10648_256',
+        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
+        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar106486/data/data_treated_256/train.mrcs',
+        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10648/particles_val_bicubic_256_normalized.mrcs'
     }
+
 ]
 
 # -------------------------------

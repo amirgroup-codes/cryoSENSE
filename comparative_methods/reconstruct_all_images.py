@@ -28,15 +28,17 @@ chunk_size = 16  # Images per GPU process
 gpu_ids = [1]
 num_parallel = len(gpu_ids)
 
+# Change configs to run different experiments
 configs = [
     {'block_size': 2, 'num_masks': 1, 'mask_type': 'random_binary'},
 ]
 
+# Change experiments to run different datasets
 experiments = [
     {
         'protein': 'EMPIAR10786_128',
-        'model': '/usr/scratch/danial_stuff/FrugalCryo/Test/training/ddpm-ema-cryoem-128-EMPIAR10786-apr16/',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_train_normalized.mrcs',
+        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
+        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/data/data_treated_128/train.mrcs',
         'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs'
     }
 ]
