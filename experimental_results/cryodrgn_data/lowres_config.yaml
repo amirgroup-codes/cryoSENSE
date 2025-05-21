@@ -1,0 +1,39 @@
+dataset_args:
+  ctf: /usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_128/val_test_ctf.pkl
+  datadir: null
+  do_pose_sgd: false
+  ind: null
+  invert_data: false
+  keepreal: false
+  norm:
+  - 0.0
+  - 3.544858694076538
+  particles: /usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_128/empiar10076_raw_val_test_8_normalized_minus1to1.mrcs
+  poses: /usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_128/val_test_poses.pkl
+  window: true
+  window_r: 0.85
+lattice_args:
+  D: 9
+  extent: 0.5
+  ignore_DC: true
+model_args:
+  activation: relu
+  domain: fourier
+  enc_mask: 4
+  encode_mode: resid
+  feat_sigma: 0.5
+  pdim: 1024
+  pe_dim: null
+  pe_type: gaussian
+  players: 3
+  qdim: 1024
+  qlayers: 3
+  tilt_params:
+    ntilts: 10
+    t_emb_dim: 64
+    tdim: 1024
+    tlayers: 3
+  zdim: 8
+seed: 87125
+time: 2025-05-09 17:07:04.101642
+version: 3.4.0
