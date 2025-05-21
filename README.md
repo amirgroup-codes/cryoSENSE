@@ -191,7 +191,7 @@ The `reconstruct_all_images.py` script can be used for reconstructing all images
 - Generates comprehensive metrics for all processed images
 - Supports various input formats including PyTorch tensors and MRC files
 
-# Pretrained Models
+## Pretrained Models
 
 The following DDPM models are available on Huggingface and can be used directly with CryoGEN:
 
@@ -305,7 +305,3 @@ You can find the code for running the comparative method reconstruction experime
 # Comparative Methods
 
 The scripts and data for analyzing and visualizing the experimental results are located in the `experimental_results/` directory. For more details, refer to the `experimental_results/README.md` file.
-
-## License
-
-MIT License
