@@ -226,8 +226,6 @@ python examples/simple_example.py
 bash examples/simple_example.sh
 ```
 
-### 🌟 Features of Example Scripts
-
 - **📦 No manual downloads required**: A sample image is included in the `data/` directory
 - **🤖 Pre-trained model**: Uses the anonymously uploaded DDPM model (`anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128`) from HuggingFace
 - **⚙️ Configurable block size**: The block size parameter can be changed to any of {2, 4, 8, 16, 32}, adjust the number of masks accordingly
