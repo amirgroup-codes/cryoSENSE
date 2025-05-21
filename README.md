@@ -209,7 +209,6 @@ The following DDPM models are available on Huggingface and can be used directly 
 | anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128 | 128×128 | EMPIAR11526 |
 | anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128 | 128×128 | EMPIAR10166  |
 | anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128 | 128×128 | EMPIAR10786 |
-| anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256 | 256×256 | EMPIAR10076 |
 | anonymousneurips008/empiar10648-ddpm-cryoem-256x256 | 256×256 | EMPIAR10648 |
 
 You can specify these models directly in the command line or API calls without downloading them:
@@ -217,6 +216,19 @@ You can specify these models directly in the command line or API calls without d
 ```bash
 cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 --cryoem_path /path/to/data
 ```
+
+## Datasets
+
+The following DDPM models are available on Huggingface and can be used directly with CryoGEN:
+
+| Dataset  | Description |
+|-------|-------------------------|
+| anonymousneurips008/3D_Volumes_CryoGEN | 3D volumes of EMPIAR10076 |
+| anonymousneurips008/EMPIAR10076_128x128 | EMPIAR10076 128x128 Images |
+| anonymousneurips008/EMPIAR11526_128x128 | EMPIAR11526 128x128 Images |
+| anonymousneurips008/EMPIAR10166_128x128 | EMPIAR10166 128x128 Images |
+| anonymousneurips008/EMPIAR10786_128x128 | EMPIAR10786 128x128 Images |
+| anonymousneurips008/EMPIAR10648_256x256 | EMPIAR10648 256x256 Images |
 
 ## Command-line Options
 
