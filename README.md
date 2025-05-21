@@ -7,7 +7,7 @@ CryoGEN is a generative model for solving the cryo-EM inverse problem of reconst
 ## Features
 
 - Efficient measurement and reconstruction of CryoEM images
-- Support for various mask types (random binary, random Gaussian, checkerboard, moiré patterns)
+- Support for various mask types (random binary, random Gaussian, checkerboard)
 - Batch processing of multiple images
 - Comprehensive reconstruction quality evaluation
 - Easy-to-use Python API and command-line interface
