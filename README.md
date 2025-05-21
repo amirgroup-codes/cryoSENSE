@@ -1,4 +1,4 @@
-# CryoGEN: CryoEM Image Reconstruction with Diffusion Models
+# CryoGEN: Guided Diffusion for Accurate Cryo-EM Super-Resolution
 
 Deep generative models have recently shown promise as priors for solving inverse problems, enabling image recovery without reliance on sparsity assumptions on a pre-defined basis. Diffusion models, in particular, have enabled super-resolution, inpainting, and deblurring of natural images by learning data distributions over low-dimensional image manifolds. However, scientific imaging modalities, such as cryo-electron microscopy (cryo-EM), demand accurate rather than merely perceptually plausible reconstructions, as visually minor errors can lead to incorrect structural interpretations. 
 
@@ -286,6 +286,10 @@ Regardless of whether verbose mode is enabled, CryoGEN always saves:
 - PyTorch 1.7.0 or higher
 - diffusers 0.11.0 or higher
 - CUDA-capable GPU (recommended)
+
+# DDPM Training Scripts
+The training scripts located in the `training/` directory have been adapted for single-channel images based on the [Diffusers library's unconditional image generation script](https://github.com/huggingface/diffusers/blob/main/examples/unconditional_image_generation/train_unconditional.py).
+
 
 ## License
 
