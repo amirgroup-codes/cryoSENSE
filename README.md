@@ -18,7 +18,9 @@
 ## 📑 Table of Contents
 
 - [🧬 Overview](#-overview)
-- [🚀 Installation](#-installation)
+- [🔬 Comparative Methods](#-comparative-methods)
+- [📈 Experimental Results](#-experimental-results)
+- [🚀 CryoGEN Installation](#-installation)
   - [From PyPI (recommended)](#from-pypi-recommended)
   - [From Source](#from-source)
 - [⚡ Quick Start](#-quick-start)
@@ -41,9 +43,6 @@
 - [📊 Supported Data Formats](#-supported-data-formats)
 - [💻 Requirements](#-requirements)
 - [📦 Datasets](#-datasets)
-- [🔬 Comparative Methods](#-comparative-methods)
-- [📈 Experimental Results](#-experimental-results)
-
 ---
 
 ## 🧬 Overview
@@ -58,6 +57,22 @@ Deep generative models have recently shown promise as priors for solving inverse
 - 🔬 Preserves critical structural information for downstream analysis
 - 🧬 Enables atomic model building and conformational heterogeneity analysis
 
+
+---
+
+## 🔬 Comparative Methods
+
+You can find the code for running the comparative method reconstruction experiments in the `comparative_methods/` directory. 
+
+📖 **For detailed instructions**, please refer to the `comparative_methods/README.md` file.
+
+---
+
+## 📈 Experimental Results
+
+The scripts and data for analyzing and visualizing the experimental results are located in the `experimental_results/` directory. 
+
+📖 **For more details**, refer to the `experimental_results/README.md` file.
 
 ---
 
@@ -416,21 +431,5 @@ The following datasets are available on Huggingface:
 | `anonymousneurips008/EMPIAR10166_128x128` | EMPIAR10166 128x128 Images |
 | `anonymousneurips008/EMPIAR10786_128x128` | EMPIAR10786 128x128 Images |
 | `anonymousneurips008/EMPIAR10648_256x256` | EMPIAR10648 256x256 Images |
-
----
-
-## 🔬 Comparative Methods
-
-You can find the code for running the comparative method reconstruction experiments in the `comparative_methods/` directory. 
-
-📖 **For detailed instructions**, please refer to the `comparative_methods/README.md` file.
-
----
-
-## 📈 Experimental Results
-
-The scripts and data for analyzing and visualizing the experimental results are located in the `experimental_results/` directory. 
-
-📖 **For more details**, refer to the `experimental_results/README.md` file.
 
 ---
