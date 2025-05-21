@@ -7,7 +7,7 @@ CryoGEN is a generative model for solving the cryo-EM inverse problem of reconst
 ## Features
 
 - Efficient measurement and reconstruction of CryoEM images
-- Support for various mask types (random binary, random Gaussian, checkerboard, moiré patterns)
+- Support for various mask types (random binary, random Gaussian, checkerboard)
 - Batch processing of multiple images
 - Comprehensive reconstruction quality evaluation
 - Easy-to-use Python API and command-line interface
@@ -109,35 +109,37 @@ CryoGEN enables high-quality reconstruction across different downsampling levels
 
 ### Low Compression (Block Size 2, 4 Masks)
 
-With minimal compression (block size 2), CryoGEN can reconstruct high-quality images using just 4 masks:
+With minimal compression (block size 2), CryoGEN can reconstruct high-quality image using 4 masks:
 
 <img src="results/block2_4masks/reconstruction_comparison_image_0.png" width="600">
 
-The reconstruction is guided by compressed measurements:
+The reconstruction is guided by compressed measurements (Two of the measurements, each with dimensions of 64×64, are shown below): 
 
 <img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200">
+<img src="results/block2_4masks/measurements/img0_measurement_1.png" width="200">
 
-The diffusion process gradually builds the image from random noise:
+The diffusion process gradually builds the image from random noise guided by measurements:
 
 <img src="results/block2_4masks/diffusion_process_img0.gif" width="300">
 
 ### High Compression (Block Size 32, 1024 Masks)
 
-Even with extreme compression (block size 32), CryoGEN reconstructs detailed protein structures using 1024 masks:
+Even with extreme compression (block size 32), CryoGEN reconstructs hight-quality image using 1024 masks:
 
 <img src="results/block32_1024masks/reconstruction_comparison_image_0.png" width="600">
 
-The reconstruction is guided by highly compressed measurements:
+The reconstruction is guided by highly compressed measurements (Two of the measurements, each with dimensions of 4x4, are shown below):
 
 <img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200">
+<img src="results/block32_1024masks/measurements/img0_measurement_1.png" width="200">
 
-The diffusion process showing progressive refinement:
+The diffusion process gradually builds the image from random noise guided by measurements:
 
 <img src="results/block32_1024masks/diffusion_process_img0.gif" width="300">
 
 ## Example Scripts
 
-CryoGEN includes ready-to-use example scripts for quick testing and demonstration:
+CryoGEN includes ready-to-use example scripts for quick testing and demonstration. Feel tree to experiment with various block-sizes and number of masks.
 
 ### Python Example
 
