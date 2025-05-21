@@ -4,15 +4,39 @@ Deep generative models have recently shown promise as priors for solving inverse
 
 CryoGEN is a generative model for solving the cryo-EM inverse problem of reconstructing biologically accurate high-resolution images from compressed, low-resolution linear measurements. CryoGEN couples an unconditional denoising diffusion probabilistic model (DDPM) trained on cryo-EM data with Nesterov-accelerated gradients to steer the reverse diffusion toward a solution consistent with the compressed measurements. We demonstrate that CryoGEN enables high-resolution recovery from inputs up to 32× lower resolution. Furthermore, CryoGEN reconstructions preserve the critical structural information required for downstream analysis, including atomic model building and conformational heterogeneity analysis.
 
-## Features
+## Demonstration
 
-- Efficient measurement and reconstruction of CryoEM images
-- Support for various mask types (random binary, random Gaussian, checkerboard)
-- Batch processing of multiple images
-- Comprehensive reconstruction quality evaluation
-- Easy-to-use Python API and command-line interface
-- Verbose mode with detailed visualizations including GIF animations of the diffusion process
-- Configuration files for optimal parameters based on block size
+CryoGEN enables high-quality reconstruction across different downsampling levels. Below we demonstrate two configurations:
+
+### Low Compression (Block Size 2, 4 Masks)
+
+With minimal compression (block size 2), CryoGEN can reconstruct high-quality image using 4 masks:
+
+<img src="results/block2_4masks/reconstruction_comparison_image_0.png" width="600">
+
+The reconstruction is guided by compressed measurements (Two of the measurements, each with dimensions of 64×64, are shown below): 
+
+<img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200">
+<img src="results/block2_4masks/measurements/img0_measurement_1.png" width="200">
+
+The diffusion process gradually builds the image from random noise guided by measurements:
+
+<img src="results/block2_4masks/diffusion_process_img0.gif" width="300">
+
+### High Compression (Block Size 32, 1024 Masks)
+
+Even with extreme compression (block size 32), CryoGEN reconstructs hight-quality image using 1024 masks:
+
+<img src="results/block32_1024masks/reconstruction_comparison_image_0.png" width="600">
+
+The reconstruction is guided by highly compressed measurements (Two of the measurements, each with dimensions of 4x4, are shown below):
+
+<img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200">
+<img src="results/block32_1024masks/measurements/img0_measurement_1.png" width="200">
+
+The diffusion process gradually builds the image from random noise guided by measurements:
+
+<img src="results/block32_1024masks/diffusion_process_img0.gif" width="300">
 
 ## Installation
 
@@ -30,6 +54,34 @@ git clone X
 cd CryoGEN
 pip install -e .
 ```
+## Example Scripts
+
+CryoGEN includes ready-to-use example scripts for quick testing and demonstration. Feel tree to experiment with various block-sizes and number of masks.
+
+### Python Example
+
+```bash
+python examples/simple_example.py
+```
+
+### Bash Example
+
+```bash
+bash examples/simple_example.sh
+```
+
+These example scripts demonstrate CryoGEN's capabilities with the following features:
+
+- **No manual downloads required**: A sample image is included in the `data/` directory
+- **Pre-trained model**: Uses the anonymously uploaded DDPM model (`anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128`) from HuggingFace
+- **Configurable block size**: The block size parameter can be changed to any of {2, 4, 8, 16, 32}, adjust the number of masks accordingly.
+  - Example scripts demonstrate both block sizes 32 and 2
+  - Different block sizes automatically use appropriate configuration parameters
+- **Results visualization**: Both examples include verbose output with detailed visualizations
+
+The scripts demonstrate reconstruction with different parameter combinations:
+1. Block size 32 with 1024 masks
+2. Block size 2 with 4 masks
 
 ## Quick Start
 
@@ -103,72 +155,10 @@ for metric in metrics:
     print(f"Image ID: {metric['image_id']}, PSNR: {metric['PSNR']}, SSIM: {metric['SSIM']}")
 ```
 
-## Demonstration
-
-CryoGEN enables high-quality reconstruction across different downsampling levels. Below we demonstrate two configurations:
-
-### Low Compression (Block Size 2, 4 Masks)
-
-With minimal compression (block size 2), CryoGEN can reconstruct high-quality image using 4 masks:
-
-<img src="results/block2_4masks/reconstruction_comparison_image_0.png" width="600">
-
-The reconstruction is guided by compressed measurements (Two of the measurements, each with dimensions of 64×64, are shown below): 
-
-<img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200">
-<img src="results/block2_4masks/measurements/img0_measurement_1.png" width="200">
-
-The diffusion process gradually builds the image from random noise guided by measurements:
-
-<img src="results/block2_4masks/diffusion_process_img0.gif" width="300">
-
-### High Compression (Block Size 32, 1024 Masks)
-
-Even with extreme compression (block size 32), CryoGEN reconstructs hight-quality image using 1024 masks:
-
-<img src="results/block32_1024masks/reconstruction_comparison_image_0.png" width="600">
-
-The reconstruction is guided by highly compressed measurements (Two of the measurements, each with dimensions of 4x4, are shown below):
-
-<img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200">
-<img src="results/block32_1024masks/measurements/img0_measurement_1.png" width="200">
-
-The diffusion process gradually builds the image from random noise guided by measurements:
-
-<img src="results/block32_1024masks/diffusion_process_img0.gif" width="300">
-
-## Example Scripts
-
-CryoGEN includes ready-to-use example scripts for quick testing and demonstration. Feel tree to experiment with various block-sizes and number of masks.
-
-### Python Example
-
-```bash
-python examples/simple_example.py
-```
-
-### Bash Example
-
-```bash
-bash examples/simple_example.sh
-```
-
-These example scripts demonstrate CryoGEN's capabilities with the following features:
-
-- **No manual downloads required**: A sample image is included in the `data/` directory
-- **Pre-trained model**: Uses the anonymously uploaded DDPM model (`anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128`) from HuggingFace
-- **Configurable block size**: The block size parameter can be changed to any of {2, 4, 8, 16, 32}, adjust the number of masks accordingly.
-  - Example scripts demonstrate both block sizes 32 and 2
-  - Different block sizes automatically use appropriate configuration parameters
-- **Results visualization**: Both examples include verbose output with detailed visualizations
-
-The scripts demonstrate reconstruction with different parameter combinations:
-1. Block size 32 with 1024 masks
-2. Block size 2 with 4 masks
 
 ## Experiment Scripts
 
-CryoGEN also provides more advanced scripts for comprehensive experiments and batch processing:
+CryoGEN also provides more advanced scripts for comprehensive experiments:
 
 ### Grid Search Experiments
 
