@@ -57,8 +57,7 @@ Deep generative models have recently shown promise as priors for solving inverse
 - 🎯 High-resolution recovery from inputs up to **32× lower resolution**
 - 🔬 Preserves critical structural information for downstream analysis
 - 🧬 Enables atomic model building and conformational heterogeneity analysis
-- ⚡ Fast reconstruction with configurable compression levels
-- 🎨 Rich visualization and monitoring capabilities
+
 
 ---
 
