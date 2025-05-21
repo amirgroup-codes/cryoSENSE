@@ -219,7 +219,7 @@ cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 --cryoem
 
 ## Datasets
 
-The following DDPM models are available on Huggingface and can be used directly with CryoGEN:
+The following datasets are available on Huggingface:
 
 | Dataset  | Description |
 |-------|-------------------------|
