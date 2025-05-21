@@ -223,7 +223,8 @@ The following datasets are available on Huggingface:
 
 | Dataset  | Description |
 |-------|-------------------------|
-| anonymousneurips008/3D_Volumes_CryoGEN | 3D volumes of EMPIAR10076 |
+| anonymousneurips008/3D_Volumes_EMPIAR10076 | 3D volumes of EMPIAR10076 |
+| anonymousneurips008/3D_Volumes_EMPIAR10648 | 3D volumes of EMPIAR10648 |
 | anonymousneurips008/EMPIAR10076_128x128 | EMPIAR10076 128x128 Images |
 | anonymousneurips008/EMPIAR11526_128x128 | EMPIAR11526 128x128 Images |
 | anonymousneurips008/EMPIAR10166_128x128 | EMPIAR10166 128x128 Images |
