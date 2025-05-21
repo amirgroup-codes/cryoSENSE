@@ -17,6 +17,7 @@ import json
 import time
 import argparse
 import mrcfile
+import urllib.request
 
 # Set random seed for reproducibility
 torch.manual_seed(42)
@@ -38,34 +39,34 @@ datasets = [
     {
         'protein': 'EMPIAR10076_128',
         'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
-        'val_dataset': '/usr/scratch/danial_stuff/FrugalCryo/Test/new_pipeline/combined/empiar10076_128_val_test_combined.pt'
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
     },
     {
         'protein': 'EMPIAR11526_128',
         'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/val.mrcs'
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10166_128',
         'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/particles_val_normalized.mrcs'
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10786_128',
         'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs'
+       'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
     },
 
     {
         'protein': 'EMPIAR10076_256',
         'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_256/empiar10076_raw_val_test_256_normalized.mrcs'
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
     },
 
     {
         'protein': 'EMPIAR10648_256',
         'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10648/particles_val_bicubic_256_normalized.mrcs'
+        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
     },
 ]
 
@@ -104,6 +105,18 @@ def select_random_images(dataset_path, num_images, seed=42):
 
     return selected
 
+def download_dataset(url, save_path):
+    """Download dataset from a URL to the specified save path"""
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    print(f"Downloading dataset from {url} to {save_path}")
+    try:
+        urllib.request.urlretrieve(url, save_path)
+        print(f"Download complete: {save_path}")
+        return save_path
+    except Exception as e:
+        print(f"Error downloading dataset: {e}")
+        return None
+
 def prepare_dataset(experiment, result_dir, num_images=16):
     """Prepare dataset by selecting random images and saving them for experiment"""
     protein_name = experiment['protein']
@@ -111,6 +124,28 @@ def prepare_dataset(experiment, result_dir, num_images=16):
     
     # Create result directory if it doesn't exist
     os.makedirs(os.path.join(result_dir, protein_name), exist_ok=True)
+    
+    # If dataset is a URL, download it first
+    if val_dataset.startswith('http://') or val_dataset.startswith('https://'):
+        # Create data directory for protein
+        data_dir = os.path.join('data', protein_name)
+        os.makedirs(data_dir, exist_ok=True)
+        
+        # Get filename from URL
+        filename = os.path.basename(val_dataset)
+        local_path = os.path.join(data_dir, filename)
+        
+        # Download only if the file doesn't already exist
+        if not os.path.exists(local_path):
+            local_path = download_dataset(val_dataset, local_path)
+            if local_path is None:
+                print(f"Failed to download dataset for {protein_name}")
+                return None
+        else:
+            print(f"Using existing downloaded dataset: {local_path}")
+        
+        # Update val_dataset to use the local path
+        val_dataset = local_path
     
     # Select random images from the dataset
     selected_images = select_random_images(val_dataset, num_images)
@@ -308,7 +343,7 @@ def analyze_results(result_dir):
 
 def main():
     parser = argparse.ArgumentParser(description='Run experiments for CryoGEN')
-    parser.add_argument('--result_dir', type=str, default='experiment_results',
+    parser.add_argument('--result_dir', type=str, default='experiment_results_2d_plots',
                        help='Directory to save experiment results')
     parser.add_argument('--gpu_ids', type=str, default=','.join(map(str, default_gpu_ids)),
                        help='Comma-separated list of GPU IDs to use')
