@@ -96,7 +96,7 @@ cryogen --model /path/to/ddpm/model \
         --num_masks 50 \
         --mask_type random_binary \
         --zeta_scale 0.1 \
-        --zeta_min 0.01 \
+        --zeta_min 1e-10 \
         --num_timesteps 1000 \
         --beta 0.9 \
         --beta_min 0.1 \
@@ -315,8 +315,8 @@ CryoGEN includes configuration files with recommended parameters based on the bl
 
 | Block Size | zeta_scale | zeta_min | beta | beta_min |
 |------------|------------|----------|------|----------|
-| 2, 4, 8, 16 | 1.0 | 1e-2 | 0.9 | 0.1 |
-| 32, 64 | 10.0 | 1e-2 | 0.9 | 0.1 |
+| 2, 4, 8, 16 | 1.0 | 1e-10 | 0.9 | 0.1 |
+| 32, 64 | 10.0 | 1e-10 | 0.9 | 0.1 |
 
 To use these recommended configurations, either:
 1. Pass `--use_config` on the command line, or
