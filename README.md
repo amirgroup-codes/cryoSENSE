@@ -1,6 +1,14 @@
 # CryoGEN: CryoEM Image Reconstruction with Diffusion Models
 
-<img src="logo.png" width="100">
+<div align="center">
+  <img src="logo.png" width="200" alt="CryoGEN Logo">
+  
+  ![Python](https://img.shields.io/badge/python-3.13.2-blue.svg)
+  ![PyTorch](https://img.shields.io/badge/PyTorch-2.7.0-red.svg)
+  ![License](https://img.shields.io/badge/license-MIT-green.svg)
+  ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
+</div>
+
 
 ## Table of Contents
 
@@ -151,31 +159,47 @@ CryoGEN enables high-quality reconstruction across different downsampling levels
 
 #### Low Compression (Block Size 2, 4 Masks)
 
-With minimal compression (block size 2), CryoGEN can reconstruct high-quality images using just 4 masks:
+With minimal compression (block size 2), CryoGEN can reconstruct high-quality images using just **4 masks**:
 
-<img src="results/block2_4masks/reconstruction_comparison_image_0.png" width="600">
+<div align="center">
+  <img src="results/block2_4masks/reconstruction_comparison_image_0.png" width="600" alt="Low compression reconstruction">
+  <p><em>Reconstruction comparison with minimal compression</em></p>
+</div>
 
 The reconstruction is guided by compressed measurements:
 
-<img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200">
+<div align="center">
+  <img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200" alt="Measurement visualization">
+  <p><em>Compressed measurement visualization</em></p>
+</div>
 
 The diffusion process gradually builds the image from random noise:
 
-<img src="results/block2_4masks/diffusion_process_img0.gif" width="300">
+<div align="center">
+  <img src="results/block2_4masks/diffusion_process_img0.gif" width="300" alt="Diffusion process">
+</div>
 
 #### High Compression (Block Size 32, 1024 Masks)
 
-Even with extreme compression (block size 32), CryoGEN reconstructs detailed protein structures using 1024 masks:
+Even with extreme compression (block size 32), CryoGEN reconstructs detailed protein structures using **1024 masks**:
 
-<img src="results/block32_1024masks/reconstruction_comparison_image_0.png" width="600">
+<div align="center">
+  <img src="results/block32_1024masks/reconstruction_comparison_image_0.png" width="600" alt="High compression reconstruction">
+  <p><em>Reconstruction comparison with extreme compression</em></p>
+</div>
 
 The reconstruction is guided by highly compressed measurements:
 
-<img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200">
+<div align="center">
+  <img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200" alt="Highly compressed measurement">
+  <p><em>Highly compressed measurement visualization</em></p>
+</div>
 
-The diffusion process showing progressive refinement:
+The diffusion process gradually builds the image from random noise:
 
-<img src="results/block32_1024masks/diffusion_process_img0.gif" width="300">
+<div align="center">
+  <img src="results/block32_1024masks/diffusion_process_img0.gif" width="300" alt="Progressive diffusion">
+</div>
 
 ### Example Scripts
 
