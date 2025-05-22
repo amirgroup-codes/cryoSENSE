@@ -1,63 +1,71 @@
 # CryoGEN: CryoEM Image Reconstruction with Diffusion Models
 
-<div align="center">
-  <img src="logo.png" width="200" alt="CryoGEN Logo">
-  
-  ![Python](https://img.shields.io/badge/python-3.13.2-blue.svg)
-  ![PyTorch](https://img.shields.io/badge/PyTorch-2.7.0-red.svg)
-  ![License](https://img.shields.io/badge/license-MIT-green.svg)
-  ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
-</div>
+<img src="logo.png" width="100">
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Comparative Methods](#comparative-methods)
+3. [Experimental Results](#experimental-results)
+4. [CryoGEN](#cryogen)
+   - 4.1. [Installation](#installation)
+     - 4.1.1. [From PyPI (recommended)](#from-pypi-recommended)
+     - 4.1.2. [From Source](#from-source)
+   - 4.2. [Quick Start](#quick-start)
+     - 4.2.1. [Command-line Interface](#command-line-interface)
+     - 4.2.2. [Python API](#python-api)
+   - 4.3. [Demonstration](#demonstration)
+     - 4.3.1. [Low Compression (Block Size 2, 4 Masks)](#low-compression-block-size-2-4-masks)
+     - 4.3.2. [High Compression (Block Size 32, 1024 Masks)](#high-compression-block-size-32-1024-masks)
+   - 4.4. [Example Scripts](#example-scripts)
+     - 4.4.1. [Python Example](#python-example)
+     - 4.4.2. [Bash Example](#bash-example)
+   - 4.5. [Experiment Scripts](#experiment-scripts)
+     - 4.5.1. [Running Experiments](#running-experiments)
+     - 4.5.2. [Batch Reconstruction](#batch-reconstruction)
+   - 4.6. [Pretrained Models](#pretrained-models)
+   - 4.7. [Command-line Options](#command-line-options)
+   - 4.8. [Configuration Files](#configuration-files)
+     - 4.8.1. [Recommended Parameters](#recommended-parameters)
+   - 4.9. [Verbose Mode Output](#verbose-mode-output)
+   - 4.10. [Supported Data Formats](#supported-data-formats)
+   - 4.11. [Requirements](#requirements)
+5. [Datasets](#datasets)
 
 ---
 
-## 📖 Table of Contents
+## Overview
 
-- [Overview](#-overview)
-- [Key Features](#-key-features) 
-- [Installation](#-installation)
-- [Quick Start](#-quick-start)
-- [Demonstration](#-demonstration)
-- [Examples](#-examples)
-- [Experiments](#-experiments)
-- [Pre-trained Models](#-pre-trained-models)
-- [Datasets](#-datasets)
-- [Configuration](#-configuration)
-- [API Reference](#-api-reference)
-- [Requirements](#-requirements)
-- [Comparative Methods](#-comparative-methods)
-- [Contributing](#-contributing)
+Deep generative models have recently shown promise as priors for solving inverse problems, enabling image recovery without reliance on sparsity assumptions on a pre-defined basis. Diffusion models, in particular, have enabled super-resolution, inpainting, and deblurring of natural images by learning data distributions over low-dimensional image manifolds. However, scientific imaging modalities, such as cryo-electron microscopy (cryo-EM), demand accurate rather than merely perceptually plausible reconstructions, as visually minor errors can lead to incorrect structural interpretations. 
+
+CryoGEN is a generative model for solving the cryo-EM inverse problem of reconstructing biologically accurate high-resolution images from compressed, low-resolution linear measurements. CryoGEN couples an unconditional denoising diffusion probabilistic model (DDPM) trained on cryo-EM data with Nesterov-accelerated gradients to steer the reverse diffusion toward a solution consistent with the compressed measurements. We demonstrate that CryoGEN enables high-resolution recovery from inputs up to 32× lower resolution. Furthermore, CryoGEN reconstructions preserve the critical structural information required for downstream analysis, including atomic model building and conformational heterogeneity analysis.
 
 ---
 
-## 🔬 Overview
+## Comparative Methods
 
-Deep generative models have recently shown promise as priors for solving inverse problems, enabling image recovery without reliance on sparsity assumptions on a pre-defined basis. Diffusion models, in particular, have enabled super-resolution, inpainting, and deblurring of natural images by learning data distributions over low-dimensional image manifolds. However, scientific imaging modalities, such as cryo-electron microscopy (cryo-EM), demand accurate rather than merely perceptually plausible reconstructions, as visually minor errors can lead to incorrect structural interpretations.
-
-**CryoGEN** is a generative model for solving the cryo-EM inverse problem of reconstructing biologically accurate high-resolution images from compressed, low-resolution linear measurements. CryoGEN couples an unconditional denoising diffusion probabilistic model (DDPM) trained on cryo-EM data with Nesterov-accelerated gradients to steer the reverse diffusion toward a solution consistent with the compressed measurements.
-
-## ✨ Key Features
-
-- **High-Resolution Recovery**: Enables recovery from inputs up to **32× lower resolution**
-- **Structural Preservation**: Maintains critical structural information for downstream analysis
-- **Atomic Model Building**: Supports atomic model building and conformational heterogeneity analysis
-- **Flexible Configuration**: Multiple block sizes and mask types for different compression levels
-- **Pre-trained Models**: Ready-to-use models for various datasets
-- **Comprehensive API**: Both command-line and Python API interfaces
+You can find the code for running the comparative method reconstruction experiments in the `comparative_methods/` directory. For detailed instructions, please refer to the `comparative_methods/README.md` file.
 
 ---
 
-## 🚀 Installation
+## Experimental Results
 
-### From PyPI (Recommended)
+The scripts and data for analyzing and visualizing the experimental results are located in the `experimental_results/` directory. For more details, refer to the `experimental_results/README.md` file.
 
-> **Note**: This option will be enabled in the camera-ready version.
+---
 
+## CryoGEN
+
+### Installation
+
+#### From PyPI (recommended)
+
+We will enable this option in camera-ready version.
 ```bash
 pip install cryogen
 ```
 
-### From Source
+#### From Source
 
 ```bash
 git clone X
@@ -65,22 +73,15 @@ cd CryoGEN
 pip install -e .
 ```
 
----
+### Quick Start
 
-## ⚡ Quick Start
+#### Command-line Interface
 
-### Command-line Interface
-
-#### Basic Usage
 ```bash
-cryogen --model /path/to/ddpm/model \
-        --cryoem_path /path/to/cryoem/data.pt \
-        --start_id 0 \
-        --end_id 10
-```
+# Basic usage
+cryogen --model /path/to/ddpm/model --cryoem_path /path/to/cryoem/data.pt --start_id 0 --end_id 10
 
-#### Advanced Options
-```bash
+# Advanced options
 cryogen --model /path/to/ddpm/model \
         --cryoem_path /path/to/cryoem/data.pt \
         --block_size 16 \
@@ -96,20 +97,16 @@ cryogen --model /path/to/ddpm/model \
         --batch_size 4 \
         --noise_level 0.05 \
         --result_dir ./reconstruction_results
-```
 
-#### Verbose Mode with Visualizations
-```bash
+# With verbose output and visualizations
 cryogen --model /path/to/ddpm/model \
         --cryoem_path /path/to/cryoem/data.pt \
         --start_id 0 \
         --end_id 0 \
         --result_dir ./verbose_results \
         --verbose
-```
 
-#### Using Configuration Files
-```bash
+# Using configuration files for optimal parameters
 cryogen --model /path/to/ddpm/model \
         --cryoem_path /path/to/cryoem/data.pt \
         --block_size 32 \
@@ -119,7 +116,7 @@ cryogen --model /path/to/ddpm/model \
         --result_dir ./config_results
 ```
 
-### Python API
+#### Python API
 
 ```python
 from CryoGEN.main import CryoGEN
@@ -148,276 +145,206 @@ for metric in metrics:
     print(f"Image ID: {metric['image_id']}, PSNR: {metric['PSNR']}, SSIM: {metric['SSIM']}")
 ```
 
----
-
-## 🎯 Demonstration
+### Demonstration
 
 CryoGEN enables high-quality reconstruction across different downsampling levels. Below we demonstrate two configurations:
 
-### Low Compression (Block Size 2, 4 Masks)
+#### Low Compression (Block Size 2, 4 Masks)
 
-With minimal compression (block size 2), CryoGEN can reconstruct high-quality images using just **4 masks**:
+With minimal compression (block size 2), CryoGEN can reconstruct high-quality images using just 4 masks:
 
-<div align="center">
-  <img src="results/block2_4masks/reconstruction_comparison_image_0.png" width="600" alt="Low compression reconstruction">
-  <p><em>Reconstruction comparison with minimal compression</em></p>
-</div>
+<img src="results/block2_4masks/reconstruction_comparison_image_0.png" width="600">
 
 The reconstruction is guided by compressed measurements:
 
-<div align="center">
-  <img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200" alt="Measurement visualization">
-  <p><em>Compressed measurement visualization</em></p>
-</div>
+<img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200">
 
 The diffusion process gradually builds the image from random noise:
 
-<div align="center">
-  <img src="results/block2_4masks/diffusion_process_img0.gif" width="300" alt="Diffusion process">
-</div>
+<img src="results/block2_4masks/diffusion_process_img0.gif" width="300">
 
-### High Compression (Block Size 32, 1024 Masks)
+#### High Compression (Block Size 32, 1024 Masks)
 
-Even with extreme compression (block size 32), CryoGEN reconstructs detailed protein structures using **1024 masks**:
+Even with extreme compression (block size 32), CryoGEN reconstructs detailed protein structures using 1024 masks:
 
-<div align="center">
-  <img src="results/block32_1024masks/reconstruction_comparison_image_0.png" width="600" alt="High compression reconstruction">
-  <p><em>Reconstruction comparison with extreme compression</em></p>
-</div>
+<img src="results/block32_1024masks/reconstruction_comparison_image_0.png" width="600">
 
 The reconstruction is guided by highly compressed measurements:
 
-<div align="center">
-  <img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200" alt="Highly compressed measurement">
-  <p><em>Highly compressed measurement visualization</em></p>
-</div>
+<img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200">
 
-The diffusion process gradually builds the image from random noise:
+The diffusion process showing progressive refinement:
 
-<div align="center">
-  <img src="results/block32_1024masks/diffusion_process_img0.gif" width="300" alt="Progressive diffusion">
-</div>
+<img src="results/block32_1024masks/diffusion_process_img0.gif" width="300">
 
----
-
-## 📋 Examples
+### Example Scripts
 
 CryoGEN includes ready-to-use example scripts for quick testing and demonstration:
 
-### Python Example
+#### Python Example
+
 ```bash
 python examples/simple_example.py
 ```
 
-### Bash Example
+#### Bash Example
+
 ```bash
 bash examples/simple_example.sh
 ```
 
-### Example Features
+These example scripts demonstrate CryoGEN's capabilities with the following features:
 
-- **🔄 No Manual Downloads**: Sample image included in the `data/` directory
-- **🤖 Pre-trained Model**: Uses anonymously uploaded DDPM model from HuggingFace
-- **⚙️ Configurable Parameters**: Block size adjustable to {2, 4, 8, 16, 32}
-- **📊 Results Visualization**: Verbose output with detailed visualizations
+- **No manual downloads required**: A sample image is included in the `data/` directory
+- **Pre-trained model**: Uses the anonymously uploaded DDPM model (`anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128`) from HuggingFace
+- **Configurable block size**: The block size parameter can be changed to any of {2, 4, 8, 16, 32}, adjust the number of masks accordingly.
+  - Example scripts demonstrate both block sizes 32 and 2
+  - Different block sizes automatically use appropriate configuration parameters
+- **Results visualization**: Both examples include verbose output with detailed visualizations
 
 The scripts demonstrate reconstruction with different parameter combinations:
-1. **Block size 32** with 1024 masks
-2. **Block size 2** with 4 masks
+1. Block size 32 with 1024 masks
+2. Block size 2 with 4 masks
 
----
+### Experiment Scripts
 
-## 🧪 Experiments
+Performs experiments across block sizes, number of masks, mask types, and noise levels and measures the performance (Fig. 2a):
 
-CryoGEN provides advanced scripts for comprehensive experiments and batch processing:
-
-### Grid Search Experiments
+#### Running Experiments
 
 ```bash
 python scripts/run_experiments.py
 ```
 
-The `run_experiments.py` script reproduces results from the paper, including LPIPS and SSIM scores for CryoGEN reconstructions across five downsampling levels (2x-32x).
+The `run_experiments.py` script reproduces the results from the paper, specifically the LPIPS and SSIM scores for CryoGEN reconstructions across five downsampling levels (2x-32x). Features include:
 
-**Features:**
-- **📊 Grid Search**: Multiple parameters (block sizes, masks, types, noise levels)
-- **🔍 Analysis**: Identifies optimal configurations automatically
-- **📈 Comprehensive Reports**: Generates metrics (PSNR, SSIM, LPIPS)
-- **🖥️ Multi-GPU Support**: Parallel processing across multiple GPUs
+- Performs experiments over multiple parameters with 16 randomly selected images:
+  - Block sizes: 2, 4, 8, 16, 32 (corresponding to 2x-32x downsampling)
+  - Number of masks: Varies based on block size
+  - Mask types: random_binary, random_gaussian, etc.
+  - Noise levels: 0.0, 0.1, etc.
+- Analyzes results and identifies optimal configurations
+- Generates comprehensive reports with metrics (PSNR, SSIM, LPIPS)
+- Supports running on multiple GPUs in parallel
 
-### Batch Reconstruction
+#### Batch Reconstruction
 
 ```bash
 python scripts/reconstruct_all_images.py
 ```
 
-The `reconstruct_all_images.py` script processes entire datasets using optimal configurations.
+The `reconstruct_all_images.py` script can be used for reconstructing all images of a dataset using one specific configuration (block size, number of masks) distributed across multiple GPUs. Features include:
 
-**Features:**
-- **⚡ Efficient Processing**: Handles entire datasets
-- **🔄 Auto Distribution**: Work distributed across available GPUs
-- **⚙️ Fixed Configuration**: Uses optimal parameters for reconstruction
-- **📊 Comprehensive Metrics**: Generates metrics for all processed images
-- **📁 Format Support**: PyTorch tensors and MRC files
+- Processes entire datasets efficiently
+- Distributes work automatically across available GPUs
+- Uses a fixed optimal configuration for reconstruction
+- Generates comprehensive metrics for all processed images
+- Supports various input formats including PyTorch tensors and MRC files
 
----
+### Pretrained Models
 
-## 🤖 Pre-trained Models
+The following DDPM models are available on Huggingface and can be used directly with CryoGEN:
 
-The following DDPM models are available on HuggingFace and can be used directly with CryoGEN:
+| Model | Resolution | Description |
+|-------|------------|-------------|
+| anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 | 128×128 | EMPIAR10076 |
+| anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128 | 128×128 | EMPIAR11526 |
+| anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128 | 128×128 | EMPIAR10166  |
+| anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128 | 128×128 | EMPIAR10786 |
+| anonymousneurips008/empiar10648-ddpm-cryoem-256x256 | 256×256 | EMPIAR10648 |
 
-| Model | Resolution | Dataset | Description |
-|-------|------------|---------|-------------|
-| `anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128` | 128×128 | EMPIAR10076 | General purpose CryoEM model |
-| `anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128` | 128×128 | EMPIAR11526 | Specialized for dataset 11526 |
-| `anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128` | 128×128 | EMPIAR10166 | Optimized for dataset 10166 |
-| `anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128` | 128×128 | EMPIAR10786 | Trained on dataset 10786 |
-| `anonymousneurips008/empiar10648-ddpm-cryoem-256x256` | 256×256 | EMPIAR10648 | High-resolution model |
+You can specify these models directly in the command line or API calls without downloading them:
 
-### Usage Example
 ```bash
-cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 \
-        --cryoem_path /path/to/data
+cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 --cryoem_path /path/to/data
 ```
-
----
-
-## 📊 Datasets
-
-The following datasets are available on HuggingFace:
-
-| Dataset | Type | Description |
-|---------|------|-------------|
-| `anonymousneurips008/3D_Volumes_EMPIAR10076` | 3D Volumes | 3D volumes of EMPIAR10076 |
-| `anonymousneurips008/3D_Volumes_EMPIAR10648` | 3D Volumes | 3D volumes of EMPIAR10648 |
-| `anonymousneurips008/EMPIAR10076_128x128` | 2D Images | EMPIAR10076 128×128 Images |
-| `anonymousneurips008/EMPIAR11526_128x128` | 2D Images | EMPIAR11526 128×128 Images |
-| `anonymousneurips008/EMPIAR10166_128x128` | 2D Images | EMPIAR10166 128×128 Images |
-| `anonymousneurips008/EMPIAR10786_128x128` | 2D Images | EMPIAR10786 128×128 Images |
-| `anonymousneurips008/EMPIAR10648_256x256` | 2D Images | EMPIAR10648 256×256 Images |
-
----
-
-## ⚙️ Configuration
 
 ### Command-line Options
 
-| Option | Description | Default | Type |
-|--------|-------------|---------|------|
-| `--model` | Path to the pretrained DDPM model | **(required)** | str |
-| `--cryoem_path` | Path to the CryoEM dataset file | **(required)** | str |
-| `--block_size` | Block size for downsampling | `4` | int |
-| `--num_masks` | Number of binary masks to use | `30` | int |
-| `--mask_prob` | Probability for binary mask generation | `0.5` | float |
-| `--mask_type` | Type of mask (random_binary, random_gaussian, checkerboard) | `random_binary` | str |
-| `--zeta_scale` | Scale factor for the gradient step size | *(from config)* | float |
-| `--zeta_min` | Initial scale factor for the gradient step size | *(from config)* | float |
-| `--num_timesteps` | Number of diffusion timesteps | `1000` | int |
-| `--beta` | Final momentum factor for updates | *(from config)* | float |
-| `--beta_min` | Initial momentum factor for updates | *(from config)* | float |
-| `--start_id` | Starting index of images to process | `0` | int |
-| `--end_id` | Ending index of images to process | `0` | int |
-| `--batch_size` | Number of images to process in each batch | `1` | int |
-| `--noise_level` | Gaussian noise standard deviation for measurements | `0.0` | float |
-| `--result_dir` | Directory to save results | `results` | str |
-| `--device` | Device to use (cuda or cpu) | `cuda` | str |
-| `--verbose` | Enable verbose mode with detailed visualizations | `False` | bool |
-| `--use_config` | Use recommended configuration parameters | `False` | bool |
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--model` | Path to the pretrained DDPM model | (required) |
+| `--cryoem_path` | Path to the CryoEM dataset file | (required) |
+| `--block_size` | Block size for downsampling | 4 |
+| `--num_masks` | Number of binary masks to use | 30 |
+| `--mask_prob` | Probability for binary mask generation | 0.5 |
+| `--mask_type` | Type of mask to use (random_binary, random_gaussian, checkerboard) | random_binary |
+| `--zeta_scale` | Scale factor for the gradient step size | (from config) |
+| `--zeta_min` | Initial scale factor for the gradient step size | (from config) |
+| `--num_timesteps` | Number of diffusion timesteps | 1000 |
+| `--beta` | Final momentum factor for updates | (from config) |
+| `--beta_min` | Initial momentum factor for updates | (from config) |
+| `--start_id` | Starting index of images to process | 0 |
+| `--end_id` | Ending index of images to process | 0 |
+| `--batch_size` | Number of images to process in each batch | 1 |
+| `--noise_level` | Gaussian noise standard deviation for measurements | 0.0 |
+| `--result_dir` | Directory to save results | results |
+| `--device` | Device to use (cuda or cpu) | cuda |
+| `--verbose` | Enable verbose mode with detailed visualizations | False |
+| `--use_config` | Use recommended configuration parameters based on block size | False |
 
-### Recommended Parameters
+### Configuration Files
 
-CryoGEN includes configuration files with optimized parameters based on block size:
+CryoGEN includes configuration files with recommended parameters based on the block size. The system automatically selects the appropriate configuration based on your specified block size.
 
-| Block Size | zeta_scale | zeta_min | beta | beta_min | Use Case |
-|------------|------------|----------|------|----------|----------|
-| 2, 4, 8, 16 | `1.0` | `1e-2` | `0.9` | `0.1` | Low to medium compression |
-| 32, 64 | `10.0` | `1e-2` | `0.9` | `0.1` | High compression |
+#### Recommended Parameters
 
-**To use recommended configurations:**
+| Block Size | zeta_scale | zeta_min | beta | beta_min |
+|------------|------------|----------|------|----------|
+| 2, 4, 8, 16 | 1.0 | 1e-2 | 0.9 | 0.1 |
+| 32, 64 | 10.0 | 1e-2 | 0.9 | 0.1 |
+
+To use these recommended configurations, either:
 1. Pass `--use_config` on the command line, or
-2. Set `use_config=True` when creating a CryoGEN instance
+2. Set `use_config=True` when creating a CryoGEN instance in code
 
-You can override any specific parameter by explicitly providing it.
+You can override any specific parameter by explicitly providing it, and the system will use the configuration value for any unspecified parameters.
 
 ### Verbose Mode Output
 
-When `--verbose` is enabled, CryoGEN generates:
+When the `--verbose` flag is enabled, CryoGEN will generate and save:
 
-- ✅ All binary masks used for measurements
-- ✅ All measurement images for each mask  
-- ✅ Reconstructed images in PNG format
-- ✅ Comparison images (original, reconstructed, error maps)
-- ✅ GIF animation of the diffusion process (t=1000 to t=1)
+1. All binary masks used for measurements
+2. All measurement images for each mask
+3. Reconstructed images in PNG format
+4. Comparison images showing original, reconstructed, and error maps
+5. A GIF animation showing the diffusion process from t=1000 to t=1
 
-**Always saved regardless of verbose mode:**
-- Raw reconstructed image tensors (`.pt` files)
+Regardless of whether verbose mode is enabled, CryoGEN always saves:
+- Raw reconstructed image tensors (.pt files)
 - Reconstruction metrics in CSV format
-
----
-
-## 🔧 API Reference
 
 ### Supported Data Formats
 
-- **PyTorch tensor files** (`.pt`) containing CryoEM images
-- **MRC files** (`.mrcs`) containing CryoEM images
+- PyTorch tensor files (`.pt`) containing CryoEM images
+- MRC files (`.mrcs`) containing CryoEM images
 
-### Python API Classes
+### Requirements
 
-```python
-# Main CryoGEN class
-class CryoGEN:
-    def __init__(self, model_path, block_size=4, result_dir="./results", 
-                 verbose=False, use_config=False)
-    
-    def reconstruct_from_cryoem(self, file_path, image_ids, num_masks=30, 
-                               mask_type="random_binary", num_timesteps=1000)
-```
-
----
-
-## 📦 Requirements
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| Python | `3.13.2` | Core runtime |
-| PyTorch | `2.7.0` | Deep learning framework |
-| diffusers | `0.33.1` | Diffusion model utilities |
-| accelerate | `1.7.0` | Training acceleration |
-| numpy | `2.2.6` | Numerical computing |
-| scikit-image | `0.25.2` | Image processing |
-| lpips | `0.1.4` | Perceptual metrics |
-| mrcfile | `1.5.4` | MRC file handling |
-| matplotlib | `3.10.3` | Visualization |
-| imageio | `2.37.0` | Image I/O |
-
-**Hardware Requirements:**
-- 🖥️ **CUDA-capable GPU** (recommended)
-- 💾 **Minimum 8GB RAM**
-- 💽 **10GB free disk space**
+- Python 3.13.2
+- PyTorch 2.7.0
+- diffusers 0.33.1
+- accelerate 1.7.0
+- numpy 2.2.6
+- scikit-image 0.25.2
+- lpips 0.1.4
+- mrcfile 1.5.4
+- matplotlib 3.10.3
+- imageio 2.37.0
+- CUDA-capable GPU (recommended)
 
 ---
 
-## 🔬 Comparative Methods
+## Datasets
 
-You can find the code for running comparative method reconstruction experiments in the `comparative_methods/` directory. For detailed instructions, please refer to the `comparative_methods/README.md` file.
+The following datasets are available on Huggingface:
 
-The scripts and data for analyzing and visualizing experimental results are located in the `experimental_results/` directory. For more details, refer to the `experimental_results/README.md` file.
-
----
-
-## 🤝 Contributing
-
-We welcome contributions to CryoGEN! Please feel free to:
-
-1. 🐛 **Report bugs** by opening an issue
-2. 💡 **Suggest features** through feature requests  
-3. 🔧 **Submit pull requests** for bug fixes or enhancements
-4. 📖 **Improve documentation** with clearer examples
-
----
-
-<div align="center">
-  <p><strong>CryoGEN</strong> - Advancing CryoEM Image Reconstruction with Diffusion Models</p>
-  <p>Built with ❤️ for the scientific community</p>
-</div>
+| Dataset  | Description |
+|-------|-------------------------|
+| anonymousneurips008/3D_Volumes_EMPIAR10076 | 3D volumes of EMPIAR10076 |
+| anonymousneurips008/3D_Volumes_EMPIAR10648 | 3D volumes of EMPIAR10648 |
+| anonymousneurips008/EMPIAR10076_128x128 | EMPIAR10076 128x128 Images |
+| anonymousneurips008/EMPIAR11526_128x128 | EMPIAR11526 128x128 Images |
+| anonymousneurips008/EMPIAR10166_128x128 | EMPIAR10166 128x128 Images |
+| anonymousneurips008/EMPIAR10786_128x128 | EMPIAR10786 128x128 Images |
+| anonymousneurips008/EMPIAR10648_256x256 | EMPIAR10648 256x256 Images |
