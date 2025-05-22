@@ -12,6 +12,8 @@ import csv
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
 import lpips
 from .core import measurement_operator
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
 
 def plot_measurements_and_original(original_image, measurements, masks, result_dir="results"):
     """
@@ -146,61 +148,52 @@ def analyze_reconstruction(original_image_batch, reconstructed_image_batch, targ
         print(f"Average Measurement MSE: {avg_measurement_mse:.6f}")
         
         # 3. Visualize results
-        plt.figure(figsize=(12, 6))
-        
-        # For multi-channel images, we'll visualize them differently
-        if original_image.shape[1] > 1:  # Multi-channel
-            # Original image
-            plt.subplot(1, 3, 1)
-            # Take first 3 channels for RGB or just first channel for grayscale
-            img = original_vis[0, :min(3, original_vis.shape[1])].permute(1, 2, 0).cpu().numpy()
-            if original_vis.shape[1] == 1:
-                plt.imshow(original_vis[0, 0].cpu().numpy(), cmap='gray')
-            else:
-                plt.imshow(np.clip(img, 0, 1))
-            plt.title("Original Image")
-            plt.axis('off')
-            
-            # Reconstructed image
-            plt.subplot(1, 3, 2)
-            img = reconstructed_vis[0, :min(3, reconstructed_vis.shape[1])].permute(1, 2, 0).cpu().numpy()
-            if reconstructed_vis.shape[1] == 1:
-                plt.imshow(reconstructed_vis[0, 0].cpu().numpy(), cmap='gray')
-            else:
-                plt.imshow(np.clip(img, 0, 1))
-            plt.title("Reconstructed Image")
-            plt.axis('off')
-            
-            # Error map - use mean across channels for multi-channel
-            plt.subplot(1, 3, 3)
-            error_map = torch.abs(original_image - reconstructed_image).mean(dim=1).squeeze().cpu().numpy()
-            plt.imshow(error_map, cmap='hot')
-            plt.colorbar(label='Absolute Error')
-            plt.title("Error Map")
-            plt.axis('off')
-        else:
-            # Original image
-            plt.subplot(1, 3, 1)
-            plt.imshow(original_vis.squeeze().cpu().numpy(), cmap='gray')
-            plt.title("Original Image")
-            plt.axis('off')
-            
-            # Reconstructed image
-            plt.subplot(1, 3, 2)
-            plt.imshow(reconstructed_vis.squeeze().cpu().numpy(), cmap='gray')
-            plt.title("Reconstructed Image")
-            plt.axis('off')
-            
-            # Absolute error map
-            plt.subplot(1, 3, 3)
-            error_map = torch.abs(original_image - reconstructed_image).squeeze().cpu().numpy()
-            plt.imshow(error_map, cmap='hot')
-            plt.colorbar(label='Absolute Error')
-            plt.title("Error Map")
-            plt.axis('off')
-        
-        plt.tight_layout()
-        plt.savefig(f"{result_dir}/reconstruction_comparison_image_{image_id}.png")
+       
+
+        fig = plt.figure(
+            figsize=(10, 3),   # ↓ shorter / narrower canvas
+            dpi=300,
+            constrained_layout=False  # we'll tune layout by hand
+        )
+
+        gs = gridspec.GridSpec(
+            1, 4,
+            width_ratios=[1, 1, 1, 0.04],   # even slimmer colour-bar track
+            wspace=0.01                     # virtually no gap between images
+        )
+
+        # Axes
+        ax_orig  = fig.add_subplot(gs[0, 0])
+        ax_recon = fig.add_subplot(gs[0, 1])
+        ax_err   = fig.add_subplot(gs[0, 2])
+        cax      = fig.add_subplot(gs[0, 3])       # colour-bar axis
+
+        # --------------- (plotting code unchanged) ---------------------------
+        ax_orig.imshow(original_vis.squeeze().cpu().numpy(), cmap='gray')
+        ax_orig.set_title("Original", fontsize=10);  ax_orig.axis("off")
+
+        ax_recon.imshow(reconstructed_vis.squeeze().cpu().numpy(), cmap='gray')
+        ax_recon.set_title("Reconstructed", fontsize=10);  ax_recon.axis("off")
+
+        err = torch.abs(original_image - reconstructed_image).squeeze().cpu().numpy()
+        im_err = ax_err.imshow(err, cmap='hot')
+        ax_err.set_title("Error Map", fontsize=10);  ax_err.axis("off")
+
+        fig.colorbar(im_err, cax=cax, label="Absolute\nError")
+
+        # ---------------- fine-tune outer margins ----------------------------
+        fig.subplots_adjust(
+            left=0.01,   # tighten the frame
+            right=0.99,
+            top=0.98,
+            bottom=0.02
+        )
+
+        plt.savefig(
+            f"{result_dir}/reconstruction_comparison_image_{image_id}.png",
+            bbox_inches="tight",   # trims remaining border
+            pad_inches=0.02        # *tiny* padding so titles aren’t clipped
+        )
         plt.close()
         
         # 4. Save metrics to CSV
