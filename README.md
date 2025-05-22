@@ -174,7 +174,6 @@ The diffusion process gradually builds the image from random noise:
 
 <div align="center">
   <img src="results/block2_4masks/diffusion_process_img0.gif" width="300" alt="Diffusion process">
-  <p><em>Progressive image reconstruction through diffusion</em></p>
 </div>
 
 ### High Compression (Block Size 32, 1024 Masks)
@@ -193,11 +192,10 @@ The reconstruction is guided by highly compressed measurements:
   <p><em>Highly compressed measurement visualization</em></p>
 </div>
 
-The diffusion process showing progressive refinement:
+The diffusion process gradually builds the image from random noise:
 
 <div align="center">
   <img src="results/block32_1024masks/diffusion_process_img0.gif" width="300" alt="Progressive diffusion">
-  <p><em>Progressive refinement through diffusion process</em></p>
 </div>
 
 ---
