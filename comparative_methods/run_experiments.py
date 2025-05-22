@@ -17,6 +17,7 @@ import random
 import pandas as pd
 import numpy as np
 import json
+import urllib.request
 
 # -------------------------------
 # Experiment Configuration
@@ -32,57 +33,82 @@ baselines = ['dct']  # Options: 'wavelet', 'tv_minimize', 'dct', 'dmplug'
 lambdas = [1e-1, 1e-2, 1e-3, 1e-4]
 learning_rates = [1e-3, 1e-2, 1e-1, 0.5, 1]
 
-experiments = [
+DATA_DIR = 'data'
+os.makedirs(DATA_DIR, exist_ok=True)
 
-    # Make sure to download the data from the links included in the README.md file and update the paths belo.
+experiments = [
     {
         'protein': 'EMPIAR10076_128',
         'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_128/train.mrcs',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_128/val.mrcs'
+        'train_dataset': f'{DATA_DIR}/EMPIAR10076_128x128_trainset.pt',
+        'val_dataset': f'{DATA_DIR}/EMPIAR10076_128x128_valset.pt',
+        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_trainset.pt',
+        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
     },
     {
         'protein': 'EMPIAR11526_128',
         'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/train.mrcs',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar11526/data/data_treated_128/val.mrcs'
+        'train_dataset': f'{DATA_DIR}/EMPIAR11526_128x128_trainset.mrcs',
+        'val_dataset': f'{DATA_DIR}/EMPIAR11526_128x128_valset.mrc',
+        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10166_128',
         'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/data/data_treated_128/train.mrcs',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10166/particles_val_normalized.mrcs'
+        'train_dataset': f'{DATA_DIR}/EMPIAR10166_128x128_trainset.mrcs',
+        'val_dataset': f'{DATA_DIR}/EMPIAR10166_128x128_valset.mrc',
+        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10786_128',
         'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/data/data_treated_128/train.mrcs',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs'
+        'train_dataset': f'{DATA_DIR}/EMPIAR10786_128x128_trainset.mrcs',
+        'val_dataset': f'{DATA_DIR}/EMPIAR10786_128x128_valset.mrc',
+        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10076_256',
         'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/data/data_treated_256/train.mrcs',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10076/diffusion/data_256/empiar10076_raw_val_test_256_normalized.mrcs'
+        'train_dataset': f'{DATA_DIR}/EMPIAR10076_256x256_trainset.mrcs',
+        'val_dataset': f'{DATA_DIR}/EMPIAR10076_256x256_valset.mrc',
+        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
     },
     {
         'protein': 'EMPIAR10648_256',
         'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar106486/data/data_treated_256/train.mrcs',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10648/particles_val_bicubic_256_normalized.mrcs'
-    }
-
+        'train_dataset': f'{DATA_DIR}/EMPIAR10648_256x256_trainset.mrcs',
+        'val_dataset': f'{DATA_DIR}/EMPIAR10648_256x256_valset.mrc',
+        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
+    },
 ]
 
 # -------------------------------
 # Utility Functions
 # -------------------------------
 
+def download_dataset(url, save_path):
+    """Download dataset from a URL to the specified save path"""
+    if not os.path.exists(save_path):
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        print(f"Downloading dataset from {url} to {save_path}")
+        try:
+            urllib.request.urlretrieve(url, save_path)
+            print(f"Download complete: {save_path}")
+        except Exception as e:
+            print(f"Error downloading dataset: {e}")
+    else:
+        print(f"Dataset already exists at {save_path}")
+
 def select_random_images(dataset_path, num_images=16, seed=42):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    if dataset_path.endswith('.mrcs'):
+    if dataset_path.endswith('.mrcs') or dataset_path.endswith('.mrc'):
         import mrcfile
         dataset = torch.from_numpy(mrcfile.open(dataset_path).data.copy())
     else:
@@ -113,6 +139,12 @@ def run_experiments():
         train_path = exp['train_dataset']
         val_path = exp['val_dataset']
         model_path = exp['model']
+
+        # Download datasets if needed
+        if 'train_url' in exp:
+            download_dataset(exp['train_url'], train_path)
+        if 'val_url' in exp:
+            download_dataset(exp['val_url'], val_path)
 
         print('----------------------')
         print(f"Running experiments for {protein}")
@@ -161,7 +193,7 @@ def run_experiments():
                                 os.makedirs(sub_dir, exist_ok=True)
                                 log = os.path.join(sub_dir, 'experiment_log.txt')
                                 cmd = [
-                                    'python', 'baselines.py',
+                                    'python', 'comparative_methods/baselines.py',
                                     '--use_cryoem',
                                     '--cryoem_path', selected_train_path,
                                     '--result_dir', sub_dir,
@@ -208,7 +240,7 @@ def run_experiments():
                         print('Noise level:', noise_level)
                         log = os.path.join(result_dir, 'experiment_log.txt')
                         cmd = [
-                            'python', 'baselines.py',
+                            'python', 'comparative_methods/baselines.py',
                             '--use_cryoem',
                             '--cryoem_path', selected_val_path,
                             '--result_dir', result_dir,
@@ -225,8 +257,6 @@ def run_experiments():
                             f'> {log} 2>&1'
                         ]
                         run_subprocess(cmd, log)
-
-
 
 if __name__ == "__main__":
     run_experiments()

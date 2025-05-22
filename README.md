@@ -1,4 +1,4 @@
-# CryoGEN: CryoEM Image Reconstruction with Diffusion Models
+# CryoGEN: Guided Diffusion for Accurate Cryo-EM Super-Resolution
 
 <div align="center">
   <img src="logo.png" width="200" alt="CryoGEN Logo">

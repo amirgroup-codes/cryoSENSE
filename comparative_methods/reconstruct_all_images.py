@@ -17,39 +17,66 @@ import os
 import subprocess
 import json
 import torch
-from multiprocessing import Process
 import time
+from multiprocessing import Process
 
 # -------------------------------
 # Configuration
 # -------------------------------
+
 baseline = 'dct'
-chunk_size = 16  # Images per GPU process
+chunk_size = 16
 gpu_ids = [1]
 num_parallel = len(gpu_ids)
 
-# Change configs to run different experiments
+# Configurations
 configs = [
     {'block_size': 2, 'num_masks': 1, 'mask_type': 'random_binary'},
 ]
 
-# Change experiments to run different datasets
+# Dataset settings (assumes downloaded datasets from HuggingFace)
+data_dir = 'data'
 experiments = [
+    {
+        'protein': 'EMPIAR10076_128',
+        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
+        'val_dataset': f'{data_dir}/EMPIAR10076_128x128_valset.pt'
+    },
+    {
+        'protein': 'EMPIAR11526_128',
+        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
+        'val_dataset': f'{data_dir}/EMPIAR11526_128x128_valset.mrc'
+    },
+    {
+        'protein': 'EMPIAR10166_128',
+        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
+        'val_dataset': f'{data_dir}/EMPIAR10166_128x128_valset.mrc'
+    },
     {
         'protein': 'EMPIAR10786_128',
         'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
-        'train_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/data/data_treated_128/train.mrcs',
-        'val_dataset': '/usr/scratch/CryoEM/CryoSensing/empiar10786/particles_val_normalized.mrcs'
-    }
+        'val_dataset': f'{data_dir}/EMPIAR10786_128x128_valset.mrc'
+    },
+    {
+        'protein': 'EMPIAR10076_256',
+        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
+        'val_dataset': f'{data_dir}/EMPIAR10076_256x256_valset.mrc'
+    },
+    {
+        'protein': 'EMPIAR10648_256',
+        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
+        'val_dataset': f'{data_dir}/EMPIAR10648_256x256_valset.mrc'
+    },
 ]
 
 # -------------------------------
 # Worker Process
 # -------------------------------
+
 def run_reconstruction(start_id, end_id, args_dict, gpu_id):
     cmd = [
         f'CUDA_VISIBLE_DEVICES={gpu_id}',
-        'python', 'baselines.py',
+        'python', 'comparative_methods/baselines.py',
         '--use_cryoem',
         '--cryoem_path', args_dict['val_dataset'],
         '--result_dir', args_dict['result_dir'],
@@ -76,14 +103,13 @@ def run_reconstruction(start_id, end_id, args_dict, gpu_id):
         print(f"[GPU {gpu_id}] Chunk {start_id}-{end_id} failed with return code {process.returncode}")
 
 
-
 if __name__ == "__main__":
     for experiment in experiments:
         protein = experiment['protein']
         val_dataset = experiment['val_dataset']
         model_path = experiment['model']
 
-        if val_dataset.endswith('.mrcs'):
+        if val_dataset.endswith('.mrcs') or val_dataset.endswith('.mrc'):
             import mrcfile
             total_images = torch.from_numpy(mrcfile.open(val_dataset).data.copy()).shape[0]
         else:
@@ -110,7 +136,6 @@ if __name__ == "__main__":
                 lr = best['lr']
                 lmda = best['lambda']
 
-            # Check which images are already reconstructed
             completed_ids = [
                 int(f.split('_')[-1].replace('.pt', ''))
                 for f in os.listdir(result_dir)
@@ -120,13 +145,11 @@ if __name__ == "__main__":
 
             print(f"[{protein}] Resuming from image {resume_start} of {total_images}")
 
-            # Define chunks
             chunks = [
                 (start, min(start + chunk_size - 1, total_images - 1))
                 for start in range(resume_start, total_images, chunk_size)
             ]
 
-            # Dispatch jobs in batches
             i = 0
             while i < len(chunks):
                 processes = []
@@ -149,7 +172,7 @@ if __name__ == "__main__":
                     p = Process(target=run_reconstruction, args=(start_id, end_id, args_dict, gpu_id))
                     processes.append(p)
                     p.start()
-                    time.sleep(1)  # slight delay to stagger GPU load
+                    time.sleep(1)
 
                 for p in processes:
                     p.join()

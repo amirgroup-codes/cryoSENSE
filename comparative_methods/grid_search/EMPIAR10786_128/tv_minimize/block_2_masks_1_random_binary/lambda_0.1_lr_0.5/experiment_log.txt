@@ -1,9 +1,12 @@
 Results will be saved to: grid_search/EMPIAR10786_128/tv_minimize/block_2_masks_1_random_binary/lambda_0.1_lr_0.5
-Loading pipeline components...:   0%|          | 0/2 [00:00<?, ?it/s]The config attributes {'mid_block_type': 'UNetMidBlock2D'} were passed to UNet2DModel, but are not expected and will be ignored. Please verify your config.json configuration file.
-Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 17.23it/s]Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 17.19it/s]
-/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+
+Loading pipeline components...:   0%|          | 0/2 [00:00<?, ?it/s]The config attributes {'mid_block_type': 'UNetMidBlock2D'} were passed to UNet2DModel, but are not expected and will be ignored. Please verify your config.json configuration file.
+
+Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 17.23it/s]
+Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 17.19it/s]
+/usr/scratch/annon/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
   warnings.warn(
-/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+/usr/scratch/annon/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
   warnings.warn(msg)
 
 Batch 1/1: IDs [0, 1]
@@ -14,7 +17,7 @@ Selected batch shape: torch.Size([2, 128, 128])
 Batch normalized from [0, 1] to [-1, 1] range
 NOISE LEVEL 0.0
 Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
-Loading model from: /usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+Loading model from: /usr/scratch/annon/.conda/pkgs/diffusion/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
 
 ----- Analyzing reconstruction for image 0 -----
 MSE: 0.054197
