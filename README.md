@@ -5,7 +5,6 @@
   
   ![Python](https://img.shields.io/badge/python-3.13.2-blue.svg)
   ![PyTorch](https://img.shields.io/badge/PyTorch-2.7.0-red.svg)
-  ![License](https://img.shields.io/badge/license-MIT-green.svg)
   ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 </div>
 
