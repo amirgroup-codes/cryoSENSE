@@ -169,14 +169,14 @@ With minimal compression (block size 2), CryoGEN can reconstruct high-quality im
 The reconstruction is guided by compressed measurements:
 
 <div align="center">
-  <img src="results/block2_4masks/measurements/img0_measurement_0.png" width="200" alt="Measurement visualization">
+  <img src="results/block2_4masks/measurements/img0_measurement_0.png" width="170" alt="Measurement visualization">
   <p><em>Compressed measurement visualization</em></p>
 </div>
 
 The diffusion process gradually builds the image from random noise:
 
 <div align="center">
-  <img src="results/block2_4masks/diffusion_process_img0.gif" width="300" alt="Diffusion process">
+  <img src="results/block2_4masks/diffusion_process_img0.gif" width="170" alt="Diffusion process">
 </div>
 
 #### High Compression (Block Size 32, 1024 Masks)
@@ -191,14 +191,14 @@ Even with extreme compression (block size 32), CryoGEN reconstructs detailed pro
 The reconstruction is guided by highly compressed measurements:
 
 <div align="center">
-  <img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="200" alt="Highly compressed measurement">
+  <img src="results/block32_1024masks/measurements/img0_measurement_0.png" width="170" alt="Highly compressed measurement">
   <p><em>Highly compressed measurement visualization</em></p>
 </div>
 
 The diffusion process gradually builds the image from random noise:
 
 <div align="center">
-  <img src="results/block32_1024masks/diffusion_process_img0.gif" width="300" alt="Progressive diffusion">
+  <img src="results/block32_1024masks/diffusion_process_img0.gif" width="170" alt="Progressive diffusion">
 </div>
 
 ### Example Scripts
