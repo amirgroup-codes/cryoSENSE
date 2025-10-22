@@ -12,45 +12,75 @@ import gc
 
 def measurement_operator(image, masks, block_size):
     """
-    Apply the measurement operator efficiently using broadcasting and pooling.
+    Apply the measurement operator for either Fourier subsampling or time convolution.
 
     Args:
         image: Tensor of shape [batch_size, channels, img_size, img_size] in [-1, 1] range
-        masks: Tensor of shape [num_masks, img_size, img_size]
-        block_size: Block size for downsampling
+        masks: Tensor of shape [num_masks, img_size, img_size]. Can be complex for Fourier masks.
+        block_size: Block size for downsampling (used in time convolution).
+        mask_prob: The probability of sampling a Fourier coefficient (used for fourier subsampling).
     
     Returns:
-        List of measurements, each of shape [batch_size, channels, output_size, output_size]
+        List of measurements. For Fourier subsampling, this will be the reconstructed images.
     """
     batch_size, channels, img_size, _ = image.shape
     num_masks = masks.shape[0]
 
-    # 1. Prepare tensors for broadcasting
-    # image: [B, C, H, W] -> [B, 1, C, H, W]
-    # masks: [M, H, W] -> [1, M, 1, H, W]
-    img_expanded = image.unsqueeze(1)
-    masks_expanded = masks.view(1, num_masks, 1, img_size, img_size)
+    # If the mask is complex, perform Fourier subsampling.
+    if masks.is_complex():
+        # 1. Take the FFT of the image.
+        fourier_img = fft2_shifted(image)  # Shape: [B, C, H, W]
+        
+        # 2. Expand dimensions for broadcasting.
+        # fourier_img: [B, C, H, W] -> [B, 1, C, H, W]
+        # masks: [M, H, W] -> [1, M, 1, H, W]
+        fourier_expanded = fourier_img.unsqueeze(1)
+        masks_expanded = masks.view(1, num_masks, 1, img_size, img_size)
 
-    # 2. Perform element-wise multiplication using broadcasting
-    # Result shape: [B, M, C, H, W]
-    masked_images = img_expanded * masks_expanded
+        # 3. Apply the mask to zero out unsampled Fourier coefficients.
+        # The mask will have a percentage of 1s determined by mask_prob.
+        # Result shape: [B, M, C, H, W]
+        masked_fourier = fourier_expanded * masks_expanded
+        
+        # 4. Reshape for batch processing and take the inverse FFT.
+        # [B, M, C, H, W] -> [B * M, C, H, W]
+        masked_fourier_flat = masked_fourier.view(batch_size * num_masks, channels, img_size, img_size)
+        reconstructed_images_flat = ifft2_shifted(masked_fourier_flat)
+        
+        # 5. Reshape back to separate batch and mask dimensions. This is passed without pooling.
+        reconstructed_images_batch = reconstructed_images_flat.view(batch_size, num_masks, channels, img_size, img_size)
+        
+        # 6. Convert to a list to maintain a consistent output format.
+        measurements_list = [reconstructed_images_batch[:, i] for i in range(num_masks)]
 
-    # 3. Reshape for batch processing with pooling
-    # [B, M, C, H, W] -> [B * M, C, H, W]
-    masked_images_flat = masked_images.view(batch_size * num_masks, channels, img_size, img_size)
+    # If the mask is not complex, perform time convolution.
+    else:
+        # 1. Prepare tensors for broadcasting
+        # image: [B, C, H, W] -> [B, 1, C, H, W]
+        # masks: [M, H, W] -> [1, M, 1, H, W]
+        img_expanded = image.unsqueeze(1)
+        masks_expanded = masks.view(1, num_masks, 1, img_size, img_size)
 
-    # 4. Apply block-wise summation using pooling
-    # Result shape: [B * M, C, H // block, W // block]
-    measurements_flat = block_wise_sum_pooling(masked_images_flat, block_size)
+        # 2. Perform element-wise multiplication using broadcasting
+        # Result shape: [B, M, C, H, W]
+        masked_images = img_expanded * masks_expanded
 
-    # 5. Reshape back to separate batch and mask dimensions
-    output_h = img_size // block_size
-    output_w = img_size // block_size
-    # Result shape: [B, M, C, H_out, W_out]
-    measurements_batch = measurements_flat.view(batch_size, num_masks, channels, output_h, output_w)
+        # 3. Reshape for batch processing with pooling
+        # [B, M, C, H, W] -> [B * M, C, H, W]
+        masked_images_flat = masked_images.view(batch_size * num_masks, channels, img_size, img_size)
 
-    # 6. Convert back to a list to match original function's output format
-    measurements_list = [measurements_batch[:, i] for i in range(num_masks)]
+        # 4. Apply block-wise summation using pooling
+        # Result shape: [B * M, C, H // block, W // block]
+        measurements_flat = block_wise_sum_pooling(masked_images_flat, block_size)
+
+        # 5. Reshape back to separate batch and mask dimensions
+        output_h = img_size // block_size
+        output_w = img_size // block_size
+        # Result shape: [B, M, C, H_out, W_out]
+        measurements_batch = measurements_flat.view(batch_size, num_masks, channels, output_h, output_w)
+
+        # 6. Convert back to a list to match original function's output format
+        measurements_list = [measurements_batch[:, i] for i in range(num_masks)]
     
     return measurements_list
 
@@ -76,6 +106,38 @@ def block_wise_sum_pooling(image, block_size):
     # avg_pool2d calculates sum / N. divisor_override=1 makes it calculate sum / 1.
     # This directly computes the sum within each block.
     return F.avg_pool2d(image, kernel_size=block_size, stride=block_size, divisor_override=1)
+
+def fft2_shifted(image):
+    """
+    Computes the 2D FFT of an image and shifts the zero-frequency component to the center.
+    
+    Args:
+        image: Tensor of shape [..., H, W]
+    
+    Returns:
+        The centered 2D Fourier transform of the image.
+    """
+    # Apply 2D FFT along the last two dimensions
+    fourier_transform = torch.fft.fft2(image, dim=(-2, -1))
+    # Shift the zero-frequency component to the center of the spectrum
+    return torch.fft.fftshift(fourier_transform, dim=(-2, -1))
+
+def ifft2_shifted(fourier_image):
+    """
+    Computes the inverse 2D FFT of a centered Fourier spectrum.
+    
+    Args:
+        fourier_image: A centered Fourier spectrum tensor of shape [..., H, W]
+        
+    Returns:
+        The real part of the reconstructed image from the Fourier spectrum.
+    """
+    # Shift the zero-frequency component back to the corner
+    f_ishift = torch.fft.ifftshift(fourier_image, dim=(-2, -1))
+    # Apply the inverse 2D FFT
+    img_back = torch.fft.ifft2(f_ishift, dim=(-2, -1))
+    # Return the real part of the result
+    return torch.real(img_back)
 
 def measurement_consistency_gradient(current_x0_estimate, target_measurements, masks, block_size):
     """
