@@ -155,7 +155,11 @@ class CryoGEN:
             # Show only 10 masks
             for i in range(min(10, len(masks))):
                 mask = masks[i].cpu().numpy()
-                
+
+                # For complex masks (Fourier masks), visualize the absolute value
+                if np.iscomplexobj(mask):
+                    mask = np.abs(mask)
+
                 plt.figure(figsize=(8, 8), frameon=False)
                 plt.imshow(mask, cmap='gray')
                 plt.axis('off')

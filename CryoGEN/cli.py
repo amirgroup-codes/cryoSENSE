@@ -28,7 +28,7 @@ def main():
     parser.add_argument('--mask_prob', type=float, default=0.5,
                         help='Probability for binary mask generation (default: 0.5)')
     parser.add_argument('--mask_type', type=str, default="random_binary",
-                        choices=["random_binary", "random_gaussian", "checkerboard"],
+                        choices=["random_binary", "random_gaussian", "checkerboard", "random_fourier", "fourier_ring", "fourier_radial", "superres"],
                         help='Type of mask to use (default: "random_binary")')
     parser.add_argument('--zeta_scale', type=float, default=None,
                         help='Scale factor for the measurement consistency gradient step size (default: auto-selected based on block_size)')
