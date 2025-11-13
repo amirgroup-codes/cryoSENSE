@@ -52,6 +52,7 @@ def main():
         num_masks=args.num_masks,
         mask_prob=args.mask_prob,
         mask_type=args.mask_type,
+        img_size=img_size,
     )
 
     if args.use_cryoem:
@@ -79,21 +80,21 @@ def main():
             if args.baseline == "tv_minimize":
                 output = tv_minimize_batch(
                     target_measurements_batch, masks,
-                    lr=args.learning_rate, lmbda=args.lambda_, max_iter=args.num_epochs, block_size=args.block_size
+                    lr=args.learning_rate, lmbda=args.lambda_, max_iter=args.num_epochs, block_size=args.block_size, img_size=img_size
                 )
             elif args.baseline == "dct":
                 output = dct_sparse_minimize_batch(
                     target_measurements_batch, masks,
-                    lr=args.learning_rate, lmbda=args.lambda_, max_iter=args.num_epochs, block_size=args.block_size
+                    lr=args.learning_rate, lmbda=args.lambda_, max_iter=args.num_epochs, block_size=args.block_size, img_size=img_size
                 )
             elif args.baseline == "wavelet":
                 output = wavelet_sparse_minimize_batch(
                     target_measurements_batch, masks,
-                    lr=args.learning_rate, lmbda=args.lambda_, max_iter=args.num_epochs, block_size=args.block_size
+                    lr=args.learning_rate, lmbda=args.lambda_, max_iter=args.num_epochs, block_size=args.block_size, img_size=img_size
                 )
             elif args.baseline == "dmplug":
                 output = dmplug_batch(
-                    model, target_measurements_batch, masks, img_size, max_iter=1000, block_size=args.block_size
+                    model, target_measurements_batch, masks, img_size, max_iter=1000, block_size=args.block_size, img_size=img_size
                 )
             else:
                 raise ValueError(f"Unknown baseline: {args.baseline}")

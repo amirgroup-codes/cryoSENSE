@@ -197,10 +197,12 @@ def dmplug_batch(model, target_measurements_batch, masks, img_size=128, max_iter
     for t in pbar:
         model.eval()
         optimizer.zero_grad()
-        for i, tt in enumerate(scheduler.timesteps):
-            t_i = (torch.ones(1) * tt).to(device)
-            noise_pred = model(Z, t_i).sample if i == 0 else model(x_t, t_i).sample
-            x_t = scheduler.step(noise_pred, tt, Z).prev_sample
+        x_current = Z
+        for tt in scheduler.timesteps:
+            t_i = torch.full((Z.shape[0],), tt, device=device, dtype=torch.long)
+            noise_pred = model(x_current, t_i).sample
+            x_current = scheduler.step(noise_pred, tt, x_current).prev_sample
+        x_t = x_current
         pred = measurement_operator(x_t, masks, block_size)
         pred_stack = torch.stack(pred, dim=1)
         loss = criterion(pred_stack, batch)

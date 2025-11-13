@@ -107,6 +107,11 @@ def load_cryoem_batch(file_path, image_ids, target_img_size, device="cuda"):
             with mrcfile.open(file_path) as mrc:
                 cryoem_data = torch.from_numpy(mrc.data).to('cpu')
             print(f"CryoEM data loaded successfully from .mrcs file. Data shape: {cryoem_data.shape}")
+        elif file_ext == '.mrc':
+            # Load MRC file using mrcfile library
+            with mrcfile.open(file_path) as mrc:
+                cryoem_data = torch.from_numpy(mrc.data).to('cpu')
+            print(f"CryoEM data loaded successfully from .mrc file. Data shape: {cryoem_data.shape}")
         else:
             raise ValueError(f"Unsupported file extension: {file_ext}. Supported formats are .pt and .mrcs")
         

@@ -20,7 +20,7 @@ import torch
 import time
 from multiprocessing import Process
 import numpy as np
-import random
+import random 
 np.random.seed(42)
 random.seed(42)
 torch.manual_seed(42)
@@ -31,12 +31,16 @@ torch.manual_seed(42)
 
 baseline = 'dct'
 chunk_size = 16
-gpu_ids = [0]
-num_parallel = 3
+gpu_ids = [6]
+num_parallel = 3#len(gpu_ids)
 
 # Configurations
 configs = [
-    {'block_size': 2, 'num_masks': 1, 'mask_type': 'random_binary'},
+    {'block_size': 1, 'mask_prob': 0.1, 'mask_type': 'random_fourier'},
+    {'block_size': 1, 'mask_prob': 0.2, 'mask_type': 'random_fourier'},
+    {'block_size': 1, 'mask_prob': 0.3, 'mask_type': 'random_fourier'},
+    {'block_size': 1, 'mask_prob': 0.4, 'mask_type': 'random_fourier'},
+    {'block_size': 1, 'mask_prob': 0.5, 'mask_type': 'random_fourier'},
 ]
 
 # Dataset settings (assumes downloaded datasets from HuggingFace)
@@ -46,33 +50,7 @@ experiments = [
         'protein': 'EMPIAR10076_128',
         'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
         'val_dataset': f'{data_dir}/EMPIAR10076_128x128_valset.pt'
-    },
-    {
-        'protein': 'EMPIAR11526_128',
-        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
-        'val_dataset': f'{data_dir}/EMPIAR11526_128x128_valset.mrc'
-    },
-    {
-        'protein': 'EMPIAR10166_128',
-        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
-        'val_dataset': f'{data_dir}/EMPIAR10166_128x128_valset.mrc'
-    },
-    {
-        'protein': 'EMPIAR10786_128',
-        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
-        'val_dataset': f'{data_dir}/EMPIAR10786_128x128_valset.mrc'
-    },
-    {
-        'protein': 'EMPIAR10076_256',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
-        'val_dataset': f'{data_dir}/EMPIAR10076_256x256_valset.mrc'
-    },
-    {
-        'protein': 'EMPIAR10648_256',
-        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
-        'val_dataset': f'{data_dir}/EMPIAR10648_256x256_valset.mrc',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
-    },
+    }
 ]
 
 # -------------------------------
@@ -96,7 +74,7 @@ def run_reconstruction(start_id, end_id, args_dict, gpu_id):
         '--start_id', str(start_id),
         '--end_id', str(end_id),
         '--model', args_dict['model'],
-        '--img_size', '256'
+        '--mask_prob', str(args_dict['mask_prob'])
     ]
 
     log_file = os.path.join(args_dict['result_dir'], f"log_{start_id}_{end_id}.txt")
@@ -124,11 +102,11 @@ if __name__ == "__main__":
 
         for config in configs:
             block_size = config['block_size']
-            num_masks = config['num_masks']
+            mask_prob = config['mask_prob']
             mask_type = config['mask_type']
 
-            result_dir = os.path.join('results_3d', protein, baseline, f"block_{block_size}_masks_{num_masks}_{mask_type}")
-            results_2d_dir = os.path.join('results', protein, baseline, f"block_{block_size}_masks_{num_masks}_{mask_type}")
+            result_dir = os.path.join('results_3d', protein, baseline, f"block_{block_size}_prob_{mask_prob}_{mask_type}")
+            results_2d_dir = os.path.join('results', protein, baseline, f"block_{block_size}_prob_{mask_prob}_{mask_type}")
             os.makedirs(result_dir, exist_ok=True)
 
             if baseline == 'dmplug':
@@ -168,12 +146,13 @@ if __name__ == "__main__":
                         'val_dataset': val_dataset,
                         'result_dir': result_dir,
                         'block_size': block_size,
-                        'num_masks': num_masks,
+                        'mask_prob': mask_prob,
                         'mask_type': mask_type,
                         'baseline': baseline,
                         'lambda': lmda,
                         'lr': lr,
-                        'model': model_path
+                        'model': model_path,
+                        'num_masks': '1'
                     }
                     gpu_id = gpu_ids[(i + j) % len(gpu_ids)]
                     p = Process(target=run_reconstruction, args=(start_id, end_id, args_dict, gpu_id))
