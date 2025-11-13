@@ -1,9 +1,0 @@
------ Reconstruction Quality for Image 10 -----
-MSE: 0.059864
-MAE: 0.183648
-PSNR: 18.25 dB
-SSIM: 0.3414
-LPIPS: 0.2290
-L2 Norm Distance: 31.317909
-Average Measurement MSE: 0.000005
-Noise Level (sigma): 0.000000

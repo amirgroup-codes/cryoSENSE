@@ -1,9 +1,0 @@
------ Reconstruction Quality for Image 15 -----
-MSE: 0.573353
-MAE: 0.648625
-PSNR: 8.44 dB
-SSIM: 0.0608
-LPIPS: 0.2948
-L2 Norm Distance: 96.921730
-Average Measurement MSE: 0.158954
-Noise Level (sigma): 0.000000

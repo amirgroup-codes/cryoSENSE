@@ -1,9 +1,0 @@
------ Reconstruction Quality for Image 4 -----
-MSE: 0.060633
-MAE: 0.188375
-PSNR: 18.19 dB
-SSIM: 0.3470
-LPIPS: 0.1710
-L2 Norm Distance: 31.518360
-Average Measurement MSE: 0.000007
-Noise Level (sigma): 0.000000

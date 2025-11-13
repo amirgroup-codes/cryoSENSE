@@ -1,9 +1,0 @@
------ Reconstruction Quality for Image 1 -----
-MSE: 0.066803
-MAE: 0.199254
-PSNR: 17.77 dB
-SSIM: 0.3283
-LPIPS: 0.1751
-L2 Norm Distance: 33.083218
-Average Measurement MSE: 0.001001
-Noise Level (sigma): 0.000000

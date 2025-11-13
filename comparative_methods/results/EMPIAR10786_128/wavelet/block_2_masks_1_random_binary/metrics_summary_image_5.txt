@@ -1,9 +1,0 @@
------ Reconstruction Quality for Image 5 -----
-MSE: 0.057094
-MAE: 0.180602
-PSNR: 18.45 dB
-SSIM: 0.3534
-LPIPS: 0.2082
-L2 Norm Distance: 30.584902
-Average Measurement MSE: 0.000005
-Noise Level (sigma): 0.000000

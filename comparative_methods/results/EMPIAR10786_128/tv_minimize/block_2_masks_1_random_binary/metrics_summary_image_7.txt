@@ -1,9 +1,0 @@
------ Reconstruction Quality for Image 7 -----
-MSE: 0.048070
-MAE: 0.167136
-PSNR: 19.20 dB
-SSIM: 0.3907
-LPIPS: 0.4564
-L2 Norm Distance: 28.063700
-Average Measurement MSE: 0.000064
-Noise Level (sigma): 0.000000

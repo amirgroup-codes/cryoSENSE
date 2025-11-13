@@ -1,40 +1,40 @@
-Results will be saved to: grid_search/EMPIAR10786_128/tv_minimize/block_2_masks_1_random_binary/lambda_0.01_lr_0.5
-
-Loading pipeline components...:   0%|          | 0/2 [00:00<?, ?it/s]The config attributes {'mid_block_type': 'UNetMidBlock2D'} were passed to UNet2DModel, but are not expected and will be ignored. Please verify your config.json configuration file.
-
-Loading pipeline components...:  50%|█████     | 1/2 [00:00<00:00,  8.82it/s]
-Loading pipeline components...: 100%|██████████| 2/2 [00:00<00:00, 16.44it/s]
-/usr/scratch/annon/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
   warnings.warn(
-/usr/scratch/annon/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+/usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
   warnings.warn(msg)
+Using device: cuda
+GPU: NVIDIA RTX A6000
+Memory allocated: 0.00 GB
+Memory reserved: 0.00 GB
+Results will be saved to: grid_search/EMPIAR10786_128/tv_minimize/block_2_masks_1_random_binary/lambda_0.01_lr_0.5
+Image size: 128x128
+Block size: 2x2
+Output size after downsampling: 64x64
+Using mask type: random_binary
+Creating 1 binary masks...
+Processing CryoEM images from index 0 to 1
+Total number of images to process: 2
+Processing in batches of size: 2
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /usr/scratch/dtsui/.conda/pkgs/diffusion/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
 
-Batch 1/1: IDs [0, 1]
-Loading batch of CryoEM data from grid_search/EMPIAR10786_128/tv_minimize/block_2_masks_1_random_binary/selected_images.pt...
-CryoEM data loaded successfully from .pt file. Data shape: torch.Size([2, 128, 128])
+===== Processing Batch 1/1 =====
+Batch image IDs: [0, 1]
+Loading batch of CryoEM images...
+Loading batch of CryoEM data from grid_search/EMPIAR10786_128/selected_images.pt...
+CryoEM data loaded successfully. Data shape: torch.Size([2, 128, 128])
 Selected batch size: 2
 Selected batch shape: torch.Size([2, 128, 128])
 Batch normalized from [0, 1] to [-1, 1] range
-NOISE LEVEL 0.0
-Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
-Loading model from: /usr/scratch/annon/.conda/pkgs/diffusion/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+Getting measurements from batch of original images...
+Performing TV Minimization...
 
------ Analyzing reconstruction for image 0 -----
-MSE: 0.054450
-MAE: 0.177739
-PSNR: 18.66 dB
-SSIM: 0.4131
-LPIPS: 0.4760
-L2 Norm Distance: 29.868185
-Average Measurement MSE: 0.000060
-Metrics saved to grid_search/EMPIAR10786_128/tv_minimize/block_2_masks_1_random_binary/lambda_0.01_lr_0.5/reconstruction_metrics.csv
+----- Processing results for image 0 -----
+PSNR: 18.62 dB, SSIM: 0.4043, MSE: 0.055022
 
------ Analyzing reconstruction for image 1 -----
-MSE: 0.054519
-MAE: 0.179025
-PSNR: 18.66 dB
-SSIM: 0.3935
-LPIPS: 0.4634
-L2 Norm Distance: 29.887041
-Average Measurement MSE: 0.000066
-Metrics saved to grid_search/EMPIAR10786_128/tv_minimize/block_2_masks_1_random_binary/lambda_0.01_lr_0.5/reconstruction_metrics.csv
+----- Processing results for image 1 -----
+PSNR: 18.66 dB, SSIM: 0.3932, MSE: 0.054416
+Cleaned up memory after batch 1
+
+===== Completed processing all 2 images =====
+Results saved in the 'grid_search/EMPIAR10786_128/tv_minimize/block_2_masks_1_random_binary/lambda_0.01_lr_0.5' directory.

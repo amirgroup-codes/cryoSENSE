@@ -1,9 +1,0 @@
------ Reconstruction Quality for Image 11 -----
-MSE: 0.046176
-MAE: 0.164330
-PSNR: 19.38 dB
-SSIM: 0.4030
-LPIPS: 0.4989
-L2 Norm Distance: 27.505304
-Average Measurement MSE: 0.000060
-Noise Level (sigma): 0.000000
