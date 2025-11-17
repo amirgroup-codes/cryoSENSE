@@ -8,6 +8,8 @@
   ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 </div>
 
+Cryo-electron microscopy (cryo-EM) enables the atomic-resolution visualization of biomolecules; however, modern direct detectors generate data volumes that far exceed the available storage and transfer bandwidth, thereby constraining practical throughput. We introduce cryoSENSE, the computational realization of a hardware-software co-designed framework for compressive cryo-EM sensing and acquisition. We show that cryo-EM images of proteins lie on low-dimensional manifolds that can be independently represented using sparse priors in predefined bases and generative priors captured by a denoising diffusion model. cryoSENSE leverages these low-dimensional manifolds to enable faithful image reconstruction from spatial and Fourier-domain undersampled measurements while preserving downstream structural resolution. In experiments, cryoSENSE increases acquisition throughput by up to 2.5× while retaining the original 3D resolution, offering controllable trade-offs between the number of masked measurements and the level of downsampling.
+
 
 ## Table of Contents
 
@@ -38,12 +40,6 @@
    - 4.10. [Supported Data Formats](#supported-data-formats)
    - 4.11. [Requirements](#requirements)
 5. [Datasets](#datasets)
-
----
-
-## Abstract
-
-Cryo-electron microscopy (cryo-EM) enables the atomic-resolution visualization of biomolecules; however, modern direct detectors generate data volumes that far exceed the available storage and transfer bandwidth, thereby constraining practical throughput. We introduce cryoSENSE, the computational realization of a hardware-software co-designed framework for compressive cryo-EM sensing and acquisition. We show that cryo-EM images of proteins lie on low-dimensional manifolds that can be independently represented using sparse priors in predefined bases and generative priors captured by a denoising diffusion model. cryoSENSE leverages these low-dimensional manifolds to enable faithful image reconstruction from spatial and Fourier-domain undersampled measurements while preserving downstream structural resolution. In experiments, cryoSENSE increases acquisition throughput by up to 2.5× while retaining the original 3D resolution, offering controllable trade-offs between the number of masked measurements and the level of downsampling.
 
 ---
 
