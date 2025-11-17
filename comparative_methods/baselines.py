@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 
 import sys
 sys.path.append('..')
-from CryoGEN.data import load_cryoem_batch
-from CryoGEN.masks import create_binary_masks
-from CryoGEN.core import measurement_operator
-from CryoGEN.evaluation import analyze_reconstruction
+from CryoSENSE.data import load_cryoem_batch
+from CryoSENSE.masks import create_binary_masks
+from CryoSENSE.core import measurement_operator
+from CryoSENSE.evaluation import analyze_reconstruction
 from comparative_methods_utils import tv_minimize_batch, dct_sparse_minimize_batch, wavelet_sparse_minimize_batch, dmplug_batch
 
 

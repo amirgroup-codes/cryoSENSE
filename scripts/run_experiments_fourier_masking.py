@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script for running experiments with different parameters for CryoGEN.
+Script for running experiments with different parameters for CryoSENSE.
 Performs experiments across block sizes, number of masks, mask types, and noise levels and measures the performance
 """
 
@@ -39,35 +39,35 @@ noise_level = 0.0
 datasets = [
     {
         'protein': 'EMPIAR10076_128',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
     },
     {
         'protein': 'EMPIAR11526_128',
-        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
+        'model': 'anon202628/empiar11526-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10166_128',
-        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
+        'model': 'anon202628/empiar10166-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10786_128',
-        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
-       'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
+        'model': 'anon202628/empiar10786-ddpm-ema-cryoem-128x128',
+       'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
     },
 
     # {
     #     'protein': 'EMPIAR10076_256',
-    #     'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
-    #     'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
+    #     'model': 'anon202628/empiar10076-ddpm-ema-cryoem-256x256',
+    #     'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
     # },
 
     # {
     #     'protein': 'EMPIAR10648_256',
-    #     'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
-    #     'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
+    #     'model': 'anon202628/empiar10648-ddpm-cryoem-256x256',
+    #     'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
     # },
 ]
 
@@ -178,11 +178,11 @@ def run_experiment(job):
 
     print(f"Running experiment: {protein_name}, block_size={block_size}, mask_prob={mask_prob}, mask_type={mask_type} on GPU {gpu_id}")
     
-    # Construct command to run cryogen with appropriate parameters
+    # Construct command to run cryosense with appropriate parameters
     print(mask_type,mask_prob)
     cmd = [
         f'CUDA_VISIBLE_DEVICES={gpu_id}',
-        'cryogen',
+        'cryosense',
         '--model', model_name,
         '--cryoem_path', selected_images_path,
         '--block_size', str(block_size),
@@ -347,7 +347,7 @@ def analyze_results(result_dir):
     return all_results
 
 def main():
-    parser = argparse.ArgumentParser(description='Run experiments for CryoGEN')
+    parser = argparse.ArgumentParser(description='Run experiments for CryoSENSE')
     parser.add_argument('--result_dir', type=str, default='experiment_results_2d_plots',
                        help='Directory to save experiment results')
     parser.add_argument('--gpu_ids', type=str, default=','.join(map(str, default_gpu_ids)),

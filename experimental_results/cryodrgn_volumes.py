@@ -20,7 +20,7 @@ DEVICE = 0    # GPU device index
 
 # Define dataset paths
 DATASETS = {
-    'cryogen': {
+    'cryosense': {
         'z_file': os.path.join(DATA_DIR, 'cryogen_z.99.pkl'),
         'weights_file': os.path.join(DATA_DIR, 'cryogen_weights.99.pkl'),
         'config_file': os.path.join(DATA_DIR, 'cryogen_config.yaml'),

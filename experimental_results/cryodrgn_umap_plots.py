@@ -382,7 +382,7 @@ def main():
     if compute_from_scratch:
         # First check if we're missing any UMAP embeddings
         if umap_embedding1 is None:
-            print("Computing UMAP for cryogen dataset")
+            print("Computing UMAP for cryosense dataset")
             umap_embedding1 = compute_umap(z_cryogen)
             # Save the UMAP embedding to the data directory
             save_to_data_dir({'umap_embedding': umap_embedding1}, 'cryogen_umap_results.pkl')
@@ -401,7 +401,7 @@ def main():
         
         # Now check if we're missing any GMM labels
         if gmm_labels1 is None:
-            print("Computing GMM for cryogen dataset")
+            print("Computing GMM for cryosense dataset")
             # Run GMM on UMAP embedding
             gmm_labels1 = compute_gmm(umap_embedding1)
             # Save the GMM labels to the data directory

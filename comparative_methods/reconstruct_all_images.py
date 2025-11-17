@@ -44,34 +44,34 @@ data_dir = 'data'
 experiments = [
     {
         'protein': 'EMPIAR10076_128',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-128x128',
         'val_dataset': f'{data_dir}/EMPIAR10076_128x128_valset.pt'
     },
     {
         'protein': 'EMPIAR11526_128',
-        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar11526-ddpm-ema-cryoem-128x128',
         'val_dataset': f'{data_dir}/EMPIAR11526_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10166_128',
-        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar10166-ddpm-ema-cryoem-128x128',
         'val_dataset': f'{data_dir}/EMPIAR10166_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10786_128',
-        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar10786-ddpm-ema-cryoem-128x128',
         'val_dataset': f'{data_dir}/EMPIAR10786_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10076_256',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-256x256',
         'val_dataset': f'{data_dir}/EMPIAR10076_256x256_valset.mrc'
     },
     {
         'protein': 'EMPIAR10648_256',
-        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
+        'model': 'anon202628/empiar10648-ddpm-cryoem-256x256',
         'val_dataset': f'{data_dir}/EMPIAR10648_256x256_valset.mrc',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
+        'val_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
     },
 ]
 

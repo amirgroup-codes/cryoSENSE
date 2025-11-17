@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Run baseline reconstruction experiments for CryoGEN comparative methods.
+Run baseline reconstruction experiments for CryoSENSE comparative methods.
 
 This script performs:
-- Random image selection for each protein to set as the validation set (same as CryoGEN)
+- Random image selection for each protein to set as the validation set (same as CryoSENSE)
 - Grid search over reconstruction hyperparameters (for all methods not DMPlug) 
 - Final reconstruction runs for each configuration 
 
@@ -39,51 +39,51 @@ os.makedirs(DATA_DIR, exist_ok=True)
 experiments = [
     {
         'protein': 'EMPIAR10076_128',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-128x128',
         'train_dataset': f'{DATA_DIR}/EMPIAR10076_128x128_trainset.pt',
         'val_dataset': f'{DATA_DIR}/EMPIAR10076_128x128_valset.pt',
-        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_trainset.pt',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
+        'train_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_trainset.pt',
+        'val_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
     },
     {
         'protein': 'EMPIAR11526_128',
-        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar11526-ddpm-ema-cryoem-128x128',
         'train_dataset': f'{DATA_DIR}/EMPIAR11526_128x128_trainset.mrcs',
         'val_dataset': f'{DATA_DIR}/EMPIAR11526_128x128_valset.mrc',
-        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_trainset.mrcs',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
+        'train_url': 'https://huggingface.co/datasets/anon202628/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anon202628/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10166_128',
-        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar10166-ddpm-ema-cryoem-128x128',
         'train_dataset': f'{DATA_DIR}/EMPIAR10166_128x128_trainset.mrcs',
         'val_dataset': f'{DATA_DIR}/EMPIAR10166_128x128_valset.mrc',
-        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_trainset.mrcs',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
+        'train_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10786_128',
-        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar10786-ddpm-ema-cryoem-128x128',
         'train_dataset': f'{DATA_DIR}/EMPIAR10786_128x128_trainset.mrcs',
         'val_dataset': f'{DATA_DIR}/EMPIAR10786_128x128_valset.mrc',
-        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_trainset.mrcs',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
+        'train_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10076_256',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-256x256',
         'train_dataset': f'{DATA_DIR}/EMPIAR10076_256x256_trainset.mrcs',
         'val_dataset': f'{DATA_DIR}/EMPIAR10076_256x256_valset.mrc',
-        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_trainset.mrcs',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
+        'train_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
     },
     {
         'protein': 'EMPIAR10648_256',
-        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
+        'model': 'anon202628/empiar10648-ddpm-cryoem-256x256',
         'train_dataset': f'{DATA_DIR}/EMPIAR10648_256x256_trainset.mrcs',
         'val_dataset': f'{DATA_DIR}/EMPIAR10648_256x256_valset.mrc',
-        'train_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_trainset.mrcs',
-        'val_url': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
+        'train_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_trainset.mrcs',
+        'val_url': 'https://huggingface.co/datasets/anon202628/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
     },
 ]
 

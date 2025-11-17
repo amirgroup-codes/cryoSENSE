@@ -1,5 +1,5 @@
 """
-Module for creating different types of binary masks for CryoGEN.
+Module for creating different types of binary masks for CryoSENSE.
 """
 
 import torch

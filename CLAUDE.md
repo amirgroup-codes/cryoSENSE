@@ -1,10 +1,10 @@
-# CryoGEN - Developer Guide
+# CryoSENSE - Developer Guide
 
 ## Project Overview
 
-**CryoGEN** is a guided diffusion model for accurate cryo-electron microscopy (cryo-EM) super-resolution. It solves the inverse problem of reconstructing biologically accurate high-resolution images from compressed, low-resolution linear measurements.
+**CryoSENSE** is a guided diffusion model for accurate cryo-electron microscopy (cryo-EM) super-resolution. It solves the inverse problem of reconstructing biologically accurate high-resolution images from compressed, low-resolution linear measurements.
 
-The system couples an unconditional denoising diffusion probabilistic model (DDPM) trained on cryo-EM data with Nesterov-accelerated gradients to steer the reverse diffusion toward solutions consistent with compressed measurements. CryoGEN enables high-resolution recovery from inputs up to 32x lower resolution while preserving critical structural information for downstream analysis.
+The system couples an unconditional denoising diffusion probabilistic model (DDPM) trained on cryo-EM data with Nesterov-accelerated gradients to steer the reverse diffusion toward solutions consistent with compressed measurements. CryoSENSE enables high-resolution recovery from inputs up to 32x lower resolution while preserving critical structural information for downstream analysis.
 
 **Key Technologies:**
 - Python 3.13.2
@@ -30,7 +30,7 @@ Example:
 source /usr/scratch/danial_stuff/CondaENVSep6/conda/bin/activate && conda activate /usr/scratch/danial_stuff/anaconda3/envs/cryogen_nov && python scripts/run_experiments.py
 
 # Run the CLI
-source /usr/scratch/danial_stuff/CondaENVSep6/conda/bin/activate && conda activate /usr/scratch/danial_stuff/anaconda3/envs/cryogen_nov && cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 --cryoem_path data/sample_empiar10076.pt --block_size 16 --num_masks 50 --start_id 0 --end_id 10 --use_config
+source /usr/scratch/danial_stuff/CondaENVSep6/conda/bin/activate && conda activate /usr/scratch/danial_stuff/anaconda3/envs/cryogen_nov && cryosense --model anon202628/empiar10076-ddpm-ema-cryoem-128x128 --cryoem_path data/sample_empiar10076.pt --block_size 16 --num_masks 50 --start_id 0 --end_id 10 --use_config
 ```
 
 ### Installation
@@ -38,18 +38,18 @@ source /usr/scratch/danial_stuff/CondaENVSep6/conda/bin/activate && conda activa
 ```bash
 # From source (recommended for development)
 git clone <repository-url>
-cd CryoGEN
+cd CryoSENSE
 pip install -e .
 
 # From PyPI (when available)
-pip install cryogen
+pip install cryosense
 ```
 
 ### Basic Usage
 
 ```bash
 # Quick reconstruction with CLI
-cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 \
+cryosense --model anon202628/empiar10076-ddpm-ema-cryoem-128x128 \
         --cryoem_path /path/to/data.pt \
         --block_size 16 \
         --num_masks 50 \
@@ -124,7 +124,7 @@ python modelangelo_analysis.py
 python examples/simple_example.py
 
 # Check if imports work
-python -c "from CryoGEN import CryoGEN; print('Success')"
+python -c "from CryoSENSE import CryoSENSE; print('Success')"
 ```
 
 ---
@@ -133,14 +133,14 @@ python -c "from CryoGEN import CryoGEN; print('Success')"
 
 ### Core Components
 
-#### 1. **Main API (`CryoGEN/main.py`)**
+#### 1. **Main API (`CryoSENSE/main.py`)**
 
-The `CryoGEN` class provides the high-level interface:
+The `CryoSENSE` class provides the high-level interface:
 
 ```python
-from CryoGEN import CryoGEN
+from CryoSENSE import CryoSENSE
 
-cryogen = CryoGEN(
+cryosense = CryoSENSE(
     model_path="path/to/ddpm",
     block_size=16,
     device="cuda",
@@ -148,7 +148,7 @@ cryogen = CryoGEN(
     verbose=True
 )
 
-reconstructed, original, metrics = cryogen.reconstruct_from_cryoem(
+reconstructed, original, metrics = cryosense.reconstruct_from_cryoem(
     file_path="data.pt",
     image_ids=[0, 1, 2],
     num_masks=30
@@ -158,13 +158,13 @@ reconstructed, original, metrics = cryogen.reconstruct_from_cryoem(
 **Key methods:**
 - `generate_masks()` - Create binary/Fourier masks for measurements
 - `get_measurements()` - Apply measurement operator
-- `reconstruct_image()` - Core reconstruction with CryoGEN algorithm
+- `reconstruct_image()` - Core reconstruction with CryoSENSE algorithm
 - `evaluate_reconstruction()` - Calculate PSNR, SSIM, LPIPS metrics
 - `reconstruct_from_cryoem()` - End-to-end pipeline
 
-#### 2. **Core Algorithm (`CryoGEN/core.py`)**
+#### 2. **Core Algorithm (`CryoSENSE/core.py`)**
 
-Implements the fundamental CryoGEN sampling algorithm:
+Implements the fundamental CryoSENSE sampling algorithm:
 
 - **`measurement_operator()`** - Forward measurement model
   - Supports time-domain convolution (binary masks)
@@ -193,14 +193,14 @@ Implements the fundamental CryoGEN sampling algorithm:
 3. Return x₀
 ```
 
-#### 3. **Data Loading (`CryoGEN/data.py`)**
+#### 3. **Data Loading (`CryoSENSE/data.py`)**
 
 - **Formats:** PyTorch tensors (`.pt`), MRC files (`.mrcs`)
 - **Normalization:** Automatic conversion to [-1, 1] range
 - **Batch loading:** Efficient multi-image loading with GPU transfer
 - **Noise injection:** Gaussian noise for robustness testing
 
-#### 4. **Mask Generation (`CryoGEN/masks.py`)**
+#### 4. **Mask Generation (`CryoSENSE/masks.py`)**
 
 Supports multiple mask types:
 - `random_binary` - Random binary masks (time-domain)
@@ -210,7 +210,7 @@ Supports multiple mask types:
 - `fourier_ring` - Weighted ring sampling (biased toward low frequencies)
 - `fourier_radial` - Radial spoke patterns
 
-#### 5. **Evaluation (`CryoGEN/evaluation.py`)**
+#### 5. **Evaluation (`CryoSENSE/evaluation.py`)**
 
 Metrics computed:
 - **MSE/MAE** - Pixel-level error
@@ -226,7 +226,7 @@ Visualization outputs:
 - Diffusion process GIFs (verbose mode)
 - Individual measurement visualizations
 
-#### 6. **Configuration System (`CryoGEN/config.py`)**
+#### 6. **Configuration System (`CryoSENSE/config.py`)**
 
 Block-size-specific optimal hyperparameters:
 
@@ -239,9 +239,9 @@ Config files in `configs/`:
 - `default.json` - Base configuration
 - `block_size_{2,4,8,16,32}.json` - Size-specific configs
 
-#### 7. **Command-Line Interface (`CryoGEN/cli.py`)**
+#### 7. **Command-Line Interface (`CryoSENSE/cli.py`)**
 
-Entry point: `cryogen` command (registered in `setup.py`)
+Entry point: `cryosense` command (registered in `setup.py`)
 - Parses arguments
 - Handles batch processing
 - Manages GPU memory between batches
@@ -250,10 +250,10 @@ Entry point: `cryogen` command (registered in `setup.py`)
 ### Directory Structure
 
 ```
-CryoGEN/
-├── CryoGEN/                 # Main package
+CryoSENSE/
+├── CryoSENSE/                 # Main package
 │   ├── __init__.py          # Package exports
-│   ├── main.py              # High-level API (CryoGEN class)
+│   ├── main.py              # High-level API (CryoSENSE class)
 │   ├── core.py              # Core algorithm (sampling, gradients)
 │   ├── cli.py               # Command-line interface
 │   ├── data.py              # Data loading utilities
@@ -361,21 +361,21 @@ Input: Compressed Measurements (y) + Binary Masks (M)
 ### Pre-trained Models (HuggingFace)
 
 Available DDPM models:
-- `anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128` (128×128)
-- `anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128` (128×128)
-- `anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128` (128×128)
-- `anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128` (128×128)
-- `anonymousneurips008/empiar10648-ddpm-cryoem-256x256` (256×256)
+- `anon202628/empiar10076-ddpm-ema-cryoem-128x128` (128×128)
+- `anon202628/empiar11526-ddpm-ema-cryoem-128x128` (128×128)
+- `anon202628/empiar10166-ddpm-ema-cryoem-128x128` (128×128)
+- `anon202628/empiar10786-ddpm-ema-cryoem-128x128` (128×128)
+- `anon202628/empiar10648-ddpm-cryoem-256x256` (256×256)
 
 ### Datasets (HuggingFace)
 
-- `anonymousneurips008/3D_Volumes_EMPIAR10076`
-- `anonymousneurips008/3D_Volumes_EMPIAR10648`
-- `anonymousneurips008/EMPIAR10076_128x128`
-- `anonymousneurips008/EMPIAR11526_128x128`
-- `anonymousneurips008/EMPIAR10166_128x128`
-- `anonymousneurips008/EMPIAR10786_128x128`
-- `anonymousneurips008/EMPIAR10648_256x256`
+- `anon202628/3D_Volumes_EMPIAR10076`
+- `anon202628/3D_Volumes_EMPIAR10648`
+- `anon202628/EMPIAR10076_128x128`
+- `anon202628/EMPIAR11526_128x128`
+- `anon202628/EMPIAR10166_128x128`
+- `anon202628/EMPIAR10786_128x128`
+- `anon202628/EMPIAR10648_256x256`
 
 ### Recommended Parameters by Compression Level
 
@@ -440,18 +440,18 @@ Available DDPM models:
 ### Extending the System
 
 **Adding New Mask Types:**
-1. Edit `CryoGEN/masks.py`
+1. Edit `CryoSENSE/masks.py`
 2. Add new condition in `create_binary_masks()`
 3. Return tensor of shape `[num_masks, img_size, img_size]`
 4. Use `torch.complex64` for Fourier masks
 
 **Custom Measurement Operators:**
-1. Modify `measurement_operator()` in `CryoGEN/core.py`
+1. Modify `measurement_operator()` in `CryoSENSE/core.py`
 2. Ensure differentiability for gradient computation
 3. Update `measurement_consistency_gradient()` accordingly
 
 **New Evaluation Metrics:**
-1. Add metric computation in `CryoGEN/evaluation.py`
+1. Add metric computation in `CryoSENSE/evaluation.py`
 2. Update `analyze_reconstruction()` function
 3. Add to CSV fieldnames in `save_metrics_to_csv()`
 
@@ -477,15 +477,15 @@ Available DDPM models:
 
 1. **Testing new parameters:**
    ```python
-   from CryoGEN import CryoGEN
+   from CryoSENSE import CryoSENSE
    
-   cryogen = CryoGEN(
-       model_path="anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128",
+   cryosense = CryoSENSE(
+       model_path="anon202628/empiar10076-ddpm-ema-cryoem-128x128",
        block_size=16,
        use_config=False  # Manually specify params
    )
    
-   results = cryogen.reconstruct_from_cryoem(
+   results = cryosense.reconstruct_from_cryoem(
        file_path="data/sample.pt",
        image_ids=[0],
        zeta_scale=5.0,  # Custom value
@@ -494,10 +494,10 @@ Available DDPM models:
    ```
 
 2. **Adding new functionality:**
-   - Core algorithm changes: Edit `CryoGEN/core.py`
-   - New masks: Edit `CryoGEN/masks.py`
-   - New metrics: Edit `CryoGEN/evaluation.py`
-   - CLI options: Edit `CryoGEN/cli.py`
+   - Core algorithm changes: Edit `CryoSENSE/core.py`
+   - New masks: Edit `CryoSENSE/masks.py`
+   - New metrics: Edit `CryoSENSE/evaluation.py`
+   - CLI options: Edit `CryoSENSE/cli.py`
 
 3. **Running experiments:**
    ```bash
@@ -528,7 +528,7 @@ Current branch: `main`
 
 ## Additional Resources
 
-- **Paper**: CryoGEN research paper (NeurIPS 2025 submission)
+- **Paper**: CryoSENSE research paper (NeurIPS 2025 submission)
 - **Related Work**: DDPM, Nesterov momentum, cryo-EM reconstruction
 - **Dependencies**: See `requirements.txt` for full list
 
@@ -546,26 +546,26 @@ Current branch: `main`
 
 **Python API:**
 ```python
-from CryoGEN import CryoGEN
+from CryoSENSE import CryoSENSE
 
-cryogen = CryoGEN(model_path, block_size, use_config=True, verbose=True)
-reconstructed, original, metrics = cryogen.reconstruct_from_cryoem(
+cryosense = CryoSENSE(model_path, block_size, use_config=True, verbose=True)
+reconstructed, original, metrics = cryosense.reconstruct_from_cryoem(
     file_path, image_ids, num_masks, num_timesteps
 )
 ```
 
 **CLI:**
 ```bash
-cryogen --model MODEL --cryoem_path DATA --block_size N \
+cryosense --model MODEL --cryoem_path DATA --block_size N \
         --num_masks M --start_id 0 --end_id 10 --use_config --verbose
 ```
 
-**Entry Point:** `CryoGEN.cli:main` → registered as `cryogen` command
+**Entry Point:** `CryoSENSE.cli:main` → registered as `cryosense` command
 
-**Core Algorithm:** `CryoGEN.core:cryogen_sampling`
+**Core Algorithm:** `CryoSENSE.core:cryogen_sampling`
 
-**Measurement Operator:** `CryoGEN.core:measurement_operator`
+**Measurement Operator:** `CryoSENSE.core:measurement_operator`
 
 ---
 
-*This documentation is intended for developers working on or extending the CryoGEN codebase. For end-user documentation, see README.md.*
+*This documentation is intended for developers working on or extending the CryoSENSE codebase. For end-user documentation, see README.md.*

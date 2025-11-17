@@ -1,5 +1,5 @@
 """
-Core implementation of the CryoGEN algorithm.
+Core implementation of the CryoSENSE algorithm.
 """
 
 import math
@@ -182,7 +182,7 @@ def cryogen_sampling(target_measurements_batch, masks, batch_size, unet, schedul
                     num_timesteps=1000, zeta_scale=1e-1, zeta_min=1e-2, beta=0.9, beta_min=0.1, 
                     device="cuda", callback=None):
     """
-    Implement the CryoGEN algorithm using DDPM sampling with momentum.
+    Implement the CryoSENSE algorithm using DDPM sampling with momentum.
     
     Args:
         target_measurements_batch: List of target measurements from original images

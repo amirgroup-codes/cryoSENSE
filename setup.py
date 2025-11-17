@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="cryogen",
+    name="cryosense",
     version="0.1.0",
     author="Anonymous",
     author_email="anonymous@gmail.com",
@@ -70,7 +70,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "cryogen=CryoGEN.cli:main",
+            "cryosense=CryoSENSE.cli:main",
         ],
     },
 )

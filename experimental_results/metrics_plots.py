@@ -40,7 +40,7 @@ protein_display_names = {
 
 # Define new method names and colors
 method_names = {
-    'frugalcryo': 'CryoGEN',
+    'frugalcryo': 'CryoSENSE',
     'tv_minimize': 'TV',
     'dct': 'DCT',
     'wavelet': 'Wavelet'

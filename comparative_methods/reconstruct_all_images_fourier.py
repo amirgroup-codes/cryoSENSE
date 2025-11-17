@@ -48,7 +48,7 @@ data_dir = 'data'
 experiments = [
     {
         'protein': 'EMPIAR10076_128',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-128x128',
         'val_dataset': f'{data_dir}/EMPIAR10076_128x128_valset.pt'
     }
 ]

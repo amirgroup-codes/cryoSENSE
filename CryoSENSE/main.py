@@ -1,5 +1,5 @@
 """
-Main API for using CryoGEN algorithm.
+Main API for using CryoSENSE algorithm.
 """
 
 import torch
@@ -17,9 +17,9 @@ from .data import load_cryoem_image, load_cryoem_batch, add_gaussian_noise
 from .evaluation import plot_measurements_and_original, analyze_reconstruction
 from .config import get_recommended_params, load_config
 
-class CryoGEN:
+class CryoSENSE:
     """
-    Main class for using the CryoGEN algorithm for CryoEM image reconstruction.
+    Main class for using the CryoSENSE algorithm for CryoEM image reconstruction.
     """
     
     def __init__(self,
@@ -32,7 +32,7 @@ class CryoGEN:
                  verbose=False,
                  use_config=True):
         """
-        Initialize the CryoGEN model.
+        Initialize the CryoSENSE model.
         
         Args:
             model_path: Path to pretrained DDPM model
@@ -94,7 +94,7 @@ class CryoGEN:
             
         self.output_size = self.img_size // self.block_size
         
-        print(f"CryoGEN initialized with:")
+        print(f"CryoSENSE initialized with:")
         print(f"  - Image size: {self.img_size}x{self.img_size}")
         print(f"  - Input channels: {self.in_channels}")
         print(f"  - Block size: {self.block_size}x{self.block_size}")
@@ -322,7 +322,7 @@ class CryoGEN:
                          beta_min=None,
                          image_ids=None):
         """
-        Reconstruct images from measurements using CryoGEN.
+        Reconstruct images from measurements using CryoSENSE.
         
         Args:
             target_measurements: List of target measurements
@@ -355,7 +355,7 @@ class CryoGEN:
             beta_min = beta_min if beta_min is not None else 0.1
             
         print(f"Reconstruction parameters: zeta_scale={zeta_scale}, zeta_min={zeta_min}, beta={beta}, beta_min={beta_min}")
-        print("Starting image reconstruction with CryoGEN...")
+        print("Starting image reconstruction with CryoSENSE...")
         
         # Create callback for saving diffusion steps if in verbose mode
         callback = self.diffusion_process_callback(image_ids) if self.verbose else None

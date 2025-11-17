@@ -1,5 +1,5 @@
 """
-Configuration utilities for CryoGEN.
+Configuration utilities for CryoSENSE.
 """
 
 import os
@@ -28,7 +28,7 @@ def get_config_path(block_size=None, config_name=None):
     
     # Check if the config exists in the installed package
     try:
-        config_path = pkg_resources.resource_filename('CryoGEN', f'../configs/{config_file}')
+        config_path = pkg_resources.resource_filename('CryoSENSE', f'../configs/{config_file}')
         if os.path.exists(config_path):
             return config_path
     except (ImportError, FileNotFoundError):
@@ -50,7 +50,7 @@ def get_config_path(block_size=None, config_name=None):
         
         # Try to find the fallback config
         try:
-            config_path = pkg_resources.resource_filename('CryoGEN', f'../configs/{fallback_file}')
+            config_path = pkg_resources.resource_filename('CryoSENSE', f'../configs/{fallback_file}')
             if os.path.exists(config_path):
                 return config_path
         except (ImportError, FileNotFoundError):
@@ -65,7 +65,7 @@ def get_config_path(block_size=None, config_name=None):
     if not config_name and not block_size:
         default_file = "default.json"
         try:
-            config_path = pkg_resources.resource_filename('CryoGEN', f'../configs/{default_file}')
+            config_path = pkg_resources.resource_filename('CryoSENSE', f'../configs/{default_file}')
             if os.path.exists(config_path):
                 return config_path
         except (ImportError, FileNotFoundError):
@@ -157,7 +157,7 @@ def get_recommended_params(block_size):
 
 def load_default_config():
     """
-    Load the default configuration for CryoGEN.
+    Load the default configuration for CryoSENSE.
     
     Returns:
         Dictionary of default configuration parameters

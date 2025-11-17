@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 """
-Simple CryoGEN demonstration script with block size 32 and 1024 masks.
+Simple CryoSENSE demonstration script with block size 32 and 1024 masks.
 
 Parameters:
 - Block size: 32 (automatically uses zeta_scale=10.0 from config)
 - Number of masks: 1024
-- Model: anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128
+- Model: anon202628/empiar10076-ddpm-ema-cryoem-128x128
 - Data: data/sample_empiar10076.pt
 """
 
 import os
-from CryoGEN import CryoGEN
+from CryoSENSE import CryoSENSE
 
 def main():
     # Set parameters
-    model_path = "anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128"
+    model_path = "anon202628/empiar10076-ddpm-ema-cryoem-128x128"
     cryoem_path = "data/sample_empiar10076.pt"
     block_size = 32
     num_masks = 1024
@@ -23,7 +23,7 @@ def main():
     # Create results directory
     os.makedirs(result_dir, exist_ok=True)
     
-    print("==== CryoGEN Demonstration =====")
+    print("==== CryoSENSE Demonstration =====")
     print(f"Block size: {block_size}")
     print(f"Number of masks: {num_masks}")
     print(f"Model: {model_path}")
@@ -32,9 +32,9 @@ def main():
     print("===============================")
     print()
     
-    # Initialize CryoGEN with block size 32
+    # Initialize CryoSENSE with block size 32
     # This will automatically use optimal parameters from configuration file
-    cryogen = CryoGEN(
+    cryosense = CryoSENSE(
         model_path=model_path,
         block_size=block_size,
         result_dir=result_dir,
@@ -43,7 +43,7 @@ def main():
     )
     
     # Reconstruct an image
-    reconstructed_images, original_images, metrics = cryogen.reconstruct_from_cryoem(
+    reconstructed_images, original_images, metrics = cryosense.reconstruct_from_cryoem(
         file_path=cryoem_path,
         image_ids=[0],  # Process first image
         num_masks=num_masks,

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
-CryoGEN Fourier Masking Hyperparameter Grid Search
+CryoSENSE Fourier Masking Hyperparameter Grid Search
 
-This script performs a comprehensive grid search over CryoGEN hyperparameters
+This script performs a comprehensive grid search over CryoSENSE hyperparameters
 using Fourier domain masking on a single cryo-EM image. It explores combinations
 of mask probability, zeta_scale, beta, and number of masks to identify optimal
 reconstruction parameters.
@@ -24,10 +24,10 @@ import pandas as pd
 from itertools import product
 from pathlib import Path
 
-# Add CryoGEN to path
+# Add CryoSENSE to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from CryoGEN import CryoGEN
+from CryoSENSE import CryoSENSE
 
 
 def grid_search_fourier():
@@ -40,7 +40,7 @@ def grid_search_fourier():
     # =====================================================================
 
     # Model and data configuration
-    MODEL_PATH = "anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128"
+    MODEL_PATH = "anon202628/empiar10076-ddpm-ema-cryoem-128x128"
     DATA_PATH = "data/sample_empiar10076.pt"
     IMAGE_ID = 0  # Single image for grid search
     BLOCK_SIZE = 1  # No downsampling (full resolution)
@@ -67,7 +67,7 @@ def grid_search_fourier():
     # =====================================================================
 
     print("=" * 70)
-    print("CryoGEN FOURIER MASKING GRID SEARCH")
+    print("CryoSENSE FOURIER MASKING GRID SEARCH")
     print("=" * 70)
     print(f"\nModel: {MODEL_PATH}")
     print(f"Data: {DATA_PATH}")
@@ -123,8 +123,8 @@ def grid_search_fourier():
         os.makedirs(result_dir, exist_ok=True)
 
         try:
-            # Initialize CryoGEN (use_config=False for manual parameter control)
-            cryogen = CryoGEN(
+            # Initialize CryoSENSE (use_config=False for manual parameter control)
+            cryosense = CryoSENSE(
                 model_path=MODEL_PATH,
                 block_size=BLOCK_SIZE,
                 device=DEVICE,
@@ -134,7 +134,7 @@ def grid_search_fourier():
             )
 
             # Run reconstruction
-            reconstructed, original, metrics = cryogen.reconstruct_from_cryoem(
+            reconstructed, original, metrics = cryosense.reconstruct_from_cryoem(
                 file_path=DATA_PATH,
                 image_ids=[IMAGE_ID],
                 num_masks=num_masks,

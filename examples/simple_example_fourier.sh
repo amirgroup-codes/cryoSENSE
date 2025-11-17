@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# CryoGEN Fourier Masking Demonstration Script
+# CryoSENSE Fourier Masking Demonstration Script
 #
 # This script demonstrates random_fourier mask-based 3D reconstruction on EMPIAR-10076
 # Experiments are run with different mask probabilities to evaluate reconstruction quality
 # at various levels of Fourier domain subsampling.
 #
 # Parameters:
-# - Model: anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128
+# - Model: anon202628/empiar10076-ddpm-ema-cryoem-128x128
 # - Data: data/sample_empiar10076.pt
 # - Block size: 1 (no downsampling, full resolution)
 # - Number of masks: 1
@@ -22,7 +22,7 @@
 #   - 0.5 = 50% of Fourier coefficients (moderate compression)
 
 echo "=========================================="
-echo "CryoGEN Fourier Masking Experiments"
+echo "CryoSENSE Fourier Masking Experiments"
 echo "EMPIAR-10076 Dataset"
 echo "=========================================="
 echo ""
@@ -43,8 +43,8 @@ do
     # Create results directory
     mkdir -p $RESULT_DIR
 
-    # Run CryoGEN with random_fourier masking
-    cryogen --model anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128 \
+    # Run CryoSENSE with random_fourier masking
+    cryosense --model anon202628/empiar10076-ddpm-ema-cryoem-128x128 \
             --cryoem_path data/sample_empiar10076.pt \
             --block_size 1 \
             --num_masks 1 \

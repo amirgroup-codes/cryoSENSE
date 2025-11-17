@@ -29,35 +29,35 @@ default_mask_type = 'random_binary'
 experiments = [
     {
         'protein': 'EMPIAR10076_128',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-128x128',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_128x128/resolve/main/EMPIAR10076_128x128_valset.pt'
     },
     {
         'protein': 'EMPIAR11526_128',
-        'model': 'anonymousneurips008/empiar11526-ddpm-ema-cryoem-128x128',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
+        'model': 'anon202628/empiar11526-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR11526_128x128/resolve/main/EMPIAR11526_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10166_128',
-        'model': 'anonymousneurips008/empiar10166-ddpm-ema-cryoem-128x128',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
+        'model': 'anon202628/empiar10166-ddpm-ema-cryoem-128x128',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10166_128x128/resolve/main/EMPIAR10166_128x128_valset.mrc'
     },
     {
         'protein': 'EMPIAR10786_128',
-        'model': 'anonymousneurips008/empiar10786-ddpm-ema-cryoem-128x128',
-       'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
+        'model': 'anon202628/empiar10786-ddpm-ema-cryoem-128x128',
+       'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10786_128x128/resolve/main/EMPIAR10786_128x128_valset.mrc'
     },
 
     {
         'protein': 'EMPIAR10076_256',
-        'model': 'anonymousneurips008/empiar10076-ddpm-ema-cryoem-256x256',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
+        'model': 'anon202628/empiar10076-ddpm-ema-cryoem-256x256',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10076_256x256/resolve/main/EMPIAR10076_256x256_valset.mrc'
     },
 
     {
         'protein': 'EMPIAR10648_256',
-        'model': 'anonymousneurips008/empiar10648-ddpm-cryoem-256x256',
-        'val_dataset': 'https://huggingface.co/datasets/anonymousneurips008/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
+        'model': 'anon202628/empiar10648-ddpm-cryoem-256x256',
+        'val_dataset': 'https://huggingface.co/datasets/anon202628/EMPIAR10648_256x256/resolve/main/EMPIAR10648_256x256_valset.mrc'
     },
     # Additional datasets can be added here
     # {
@@ -148,7 +148,7 @@ def run_gpu_job(gpu_id, start_id, end_id, experiment, protein_result_dir,
     # Construct and run the command with output redirection
     cmd = [
         f'CUDA_VISIBLE_DEVICES={gpu_id}',
-        'cryogen',
+        'cryosense',
         '--model', experiment['model'],
         '--cryoem_path', dataset_path,
         '--start_id', str(start_id),
@@ -227,7 +227,7 @@ def analyze_results(result_dir, block_size, num_masks, mask_type):
         return None
 
 def main():
-    parser = argparse.ArgumentParser(description='Run CryoGEN reconstruction on multiple images')
+    parser = argparse.ArgumentParser(description='Run CryoSENSE reconstruction on multiple images')
     parser.add_argument('--result_dir', type=str, default=default_result_dir, help='Directory to save results')
     parser.add_argument('--batch_size', type=int, default=default_batch_size, help='Batch size for processing')
     parser.add_argument('--block_size', type=int, default=default_block_size, help='Block size for downsampling')

@@ -7,7 +7,7 @@ import pywt
 from scipy.fftpack import dct, idct
 import sys
 sys.path.append('..')
-from CryoGEN.core import measurement_operator
+from CryoSENSE.core import measurement_operator
 
 
 def tv_minimize_batch(target_measurements_batch, masks, img_size=128, lmbda=1e-3, max_iter=200, lr=1e-1, block_size=2):

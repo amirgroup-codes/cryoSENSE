@@ -576,14 +576,14 @@ def generate_alignment_vs_identity_scatter(similar_chains, output_file):
     
     # Define custom colors
     custom_colors = {
-        "original vs cryogen": "#96D7E6",       # Light blue for cryogen points
+        "original vs cryosense": "#96D7E6",       # Light blue for cryosense points
         "original vs lowres": "#FFA197"         # Light salmon for lowres points
     }
     
-    # Filter to keep only original-cryogen and original-lowres pairs
+    # Filter to keep only original-cryosense and original-lowres pairs
     filtered_chains = []
     comparison_groups = {
-        "original vs cryogen": [],
+        "original vs cryosense": [],
         "original vs lowres": []
     }
     
@@ -592,13 +592,13 @@ def generate_alignment_vs_identity_scatter(similar_chains, output_file):
         model2 = match["model2"]
         
         # Keep only pairs involving original
-        if (model1 == "original" and (model2 == "cryogen" or model2 == "lowres")) or \
-           (model2 == "original" and (model1 == "cryogen" or model1 == "lowres")):
+        if (model1 == "original" and (model2 == "cryosense" or model2 == "lowres")) or \
+           (model2 == "original" and (model1 == "cryosense" or model1 == "lowres")):
             filtered_chains.append(match)
             
             # Group by comparison type
-            if (model1 == "original" and model2 == "cryogen") or (model2 == "original" and model1 == "cryogen"):
-                comparison_groups["original vs cryogen"].append(match)
+            if (model1 == "original" and model2 == "cryosense") or (model2 == "original" and model1 == "cryosense"):
+                comparison_groups["original vs cryosense"].append(match)
             elif (model1 == "original" and model2 == "lowres") or (model2 == "original" and model1 == "lowres"):
                 comparison_groups["original vs lowres"].append(match)
     
@@ -659,7 +659,7 @@ def main():
     # Model file paths
     model_files = {
         "original": "modelangelo_plots_data/modelangelo_output_original.cif",
-        "cryogen": "modelangelo_plots_data/modelangelo_output_cryogen.cif",
+        "cryosense": "modelangelo_plots_data/modelangelo_output_cryogen.cif",
         "lowres": "modelangelo_plots_data/modelangelo_output_lowres.cif"
     }
     
@@ -705,7 +705,7 @@ def main():
     # First get potential matches from the alignment table
     potential_matches = {}
     for match in similar_chains:
-        if match["model1"] == "original" and match["model2"] == "cryogen":
+        if match["model1"] == "original" and match["model2"] == "cryosense":
             if match["chain1"] in target_chains:
                 if match["chain1"] not in potential_matches:
                     potential_matches[match["chain1"]] = []
@@ -713,7 +713,7 @@ def main():
                     "cryogen_chain": match["chain2"],
                     "centroid_distance": match["spatial_distance"]["centroid_distance"] if match["spatial_distance"] else float('inf')
                 })
-        elif match["model1"] == "cryogen" and match["model2"] == "original":
+        elif match["model1"] == "cryosense" and match["model2"] == "original":
             if match["chain2"] in target_chains:
                 if match["chain2"] not in potential_matches:
                     potential_matches[match["chain2"]] = []
@@ -722,7 +722,7 @@ def main():
                     "centroid_distance": match["spatial_distance"]["centroid_distance"] if match["spatial_distance"] else float('inf')
                 })
     
-    # For each original chain, choose the cryogen chain with smallest centroid distance within 3Å
+    # For each original chain, choose the cryosense chain with smallest centroid distance within 3Å
     for orig_chain, matches in potential_matches.items():
         # Sort by centroid distance
         matches.sort(key=lambda x: x["centroid_distance"])

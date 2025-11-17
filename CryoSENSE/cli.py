@@ -1,18 +1,18 @@
 """
-Command-line interface for CryoGEN.
+Command-line interface for CryoSENSE.
 """
 
 import argparse
 import os
 import torch
-from .main import CryoGEN
+from .main import CryoSENSE
 from .config import get_recommended_params
 
 def main():
     """
-    Main entry point for CryoGEN command-line interface.
+    Main entry point for CryoSENSE command-line interface.
     """
-    parser = argparse.ArgumentParser(description='CryoGEN: CryoEM Image Reconstruction with Diffusion Models')
+    parser = argparse.ArgumentParser(description='CryoSENSE: CryoEM Image Reconstruction with Diffusion Models')
     
     # Required arguments
     parser.add_argument('--model', type=str, required=True,
@@ -85,8 +85,8 @@ def main():
     # Create results directory
     os.makedirs(args.result_dir, exist_ok=True)
     
-    # Initialize CryoGEN model
-    cryogen = CryoGEN(
+    # Initialize CryoSENSE model
+    cryosense = CryoSENSE(
         model_path=args.model,
         block_size=args.block_size,
         device=args.device,
@@ -109,7 +109,7 @@ def main():
             print(f"\n===== Processing Batch: {current_batch_ids} =====")
             
             # Reconstruct images
-            reconstructed_images, original_images, metrics = cryogen.reconstruct_from_cryoem(
+            reconstructed_images, original_images, metrics = cryosense.reconstruct_from_cryoem(
                 file_path=args.cryoem_path,
                 image_ids=current_batch_ids,
                 num_masks=args.num_masks,

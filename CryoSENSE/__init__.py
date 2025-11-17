@@ -1,8 +1,8 @@
 """
-CryoGEN: Cryo-EM Image Reconstruction with Diffusion Models
+CryoSENSE: Cryo-EM Image Reconstruction with Diffusion Models
 """
 
-from .main import CryoGEN
+from .main import CryoSENSE
 from .core import measurement_operator, cryogen_sampling
 from .masks import create_binary_masks
 from .data import load_cryoem_image, load_cryoem_batch, add_gaussian_noise
@@ -12,7 +12,7 @@ from .config import get_recommended_params, load_config
 __version__ = "0.1.0"
 
 __all__ = [
-    'CryoGEN',
+    'CryoSENSE',
     'measurement_operator',
     'cryogen_sampling',
     'create_binary_masks',

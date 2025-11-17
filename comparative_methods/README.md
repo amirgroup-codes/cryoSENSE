@@ -1,6 +1,6 @@
-# CryoGEN Reconstruction: Comparative Methods
+# CryoSENSE Reconstruction: Comparative Methods
 
-This folder provides the codes for running comparative method reconstruction experiments for CryoGEN project. We perform:
+This folder provides the codes for running comparative method reconstruction experiments for CryoSENSE project. We perform:
 
 - **Systematic hyperparameter grid search and reconstruction evaluation** (`run_experiments.py`)
 - **Full-dataset reconstruction using parallel GPU workers** (`reconstruct_all_images.py`)
@@ -15,7 +15,7 @@ All four reconstruction methods, including DCT, Wavelet, TV, and DMPlug, are imp
 
 Performs the following:
 
-- Selects a random validation subset of images (consistent with CryoGEN)
+- Selects a random validation subset of images (consistent with CryoSENSE)
 - Runs grid search over `lambda` and `learning_rate` for non-DMPlug baselines
 - Saves the best parameters for reconstruction
 - Runs final reconstructions on selected validation images
