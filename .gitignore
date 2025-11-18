@@ -1,14 +1,9 @@
 CryoSENSE/__pycache__
-comparative_methods/__pycache__
+sparse_priors/__pycache__
 cryosense.egg-info/
-darin_test/
-comparative_methods/data
-comparative_methods/grid_search
-comparative_methods/results
-comparative_methods/results_0.1
-comparative_methods/results_3d
-comparative_methods/results_hold
-comparative_methods/measurement_operator_viz/
-comparative_methods/old fourier/
-comparative_methods/test.py
-comparative_methods/zip/
+sparse_priors/data
+sparse_priors/grid_search
+sparse_priors/results
+sparse_priors/results_0.1
+sparse_priors/results_3d
+sparse_priors/measurement_operator_viz/
