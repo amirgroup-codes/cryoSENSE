@@ -1,4 +1,4 @@
-# CryoSENSE: Guided Diffusion for Accurate Cryo-EM Super-Resolution
+# CryoSENSE: Compressive Sensing Enables High-throughput Microscopy with Sparse and Generative Priors on the Protein Cryo-EM Image Manifold
 
 <div align="center">
   <img src="logo.png" width="200" alt="CryoSENSE Logo">
