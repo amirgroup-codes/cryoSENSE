@@ -8,6 +8,8 @@
   ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 </div>
 
+This is the official code repository for the paper "cryoSENSE: Compressive Sensing Enables High-throughput Microscopy with Sparse and Generative Priors on the Protein Cryo-EM Image Manifold", by Zain Shabeeb, Daniel Saeedi, Darin Tsui, Vida Jamali, and Amirali Aghazadeh accepted into CVPR 2026. A link to the paper can be found [here](https://openaccess.thecvf.com/content/CVPR2026/papers/Shabeeb_cryoSENSE_Compressive_Sensing_Enables_High-throughput_Microscopy_with_Sparse_and_Generative_CVPR_2026_paper.pdf).
+
 Cryo-electron microscopy (cryo-EM) enables the atomic-resolution visualization of biomolecules; however, modern direct detectors generate data volumes that far exceed the available storage and transfer bandwidth, thereby constraining practical throughput. We introduce cryoSENSE, the computational realization of a hardware-software co-designed framework for compressive cryo-EM sensing and acquisition. We show that cryo-EM images of proteins lie on low-dimensional manifolds that can be independently represented using sparse priors in predefined bases and generative priors captured by a denoising diffusion model. cryoSENSE leverages these low-dimensional manifolds to enable faithful image reconstruction from spatial and Fourier-domain undersampled measurements while preserving downstream structural resolution. In experiments, cryoSENSE increases acquisition throughput by up to 2.5× while retaining the original 3D resolution, offering controllable trade-offs between the number of masked measurements and the level of downsampling.
 
 
