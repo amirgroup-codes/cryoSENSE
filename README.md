@@ -2,13 +2,19 @@
 
 <div align="center">
   <img src="logo.png" width="200" alt="CryoSENSE Logo">
-  
+
   ![Python](https://img.shields.io/badge/python-3.13.2-blue.svg)
   ![PyTorch](https://img.shields.io/badge/PyTorch-2.7.0-red.svg)
   ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
+
+  [![CVPR 2026](https://img.shields.io/badge/CVPR-2026-8A2BE2.svg)](https://openaccess.thecvf.com/content/CVPR2026/papers/Shabeeb_cryoSENSE_Compressive_Sensing_Enables_High-throughput_Microscopy_with_Sparse_and_Generative_CVPR_2026_paper.pdf)
+  [![arXiv](https://img.shields.io/badge/arXiv-2511.12931-b31b1b.svg)](https://arxiv.org/abs/2511.12931)
 </div>
 
-This is the official code repository for the paper "cryoSENSE: Compressive Sensing Enables High-throughput Microscopy with Sparse and Generative Priors on the Protein Cryo-EM Image Manifold", by Zain Shabeeb, Daniel Saeedi, Darin Tsui, Vida Jamali, and Amirali Aghazadeh accepted into CVPR 2026. A link to the paper can be found [here](https://openaccess.thecvf.com/content/CVPR2026/papers/Shabeeb_cryoSENSE_Compressive_Sensing_Enables_High-throughput_Microscopy_with_Sparse_and_Generative_CVPR_2026_paper.pdf).
+This is the official code repository for the paper **"cryoSENSE: Compressive Sensing Enables High-throughput Microscopy with Sparse and Generative Priors on the Protein Cryo-EM Image Manifold"**, by Zain Shabeeb, Daniel Saeedi, Darin Tsui, Vida Jamali, and Amirali Aghazadeh, **published in the Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2026**.
+
+📄 **Paper (CVPR Open Access):** [https://openaccess.thecvf.com/content/CVPR2026/papers/Shabeeb_cryoSENSE_Compressive_Sensing_Enables_High-throughput_Microscopy_with_Sparse_and_Generative_CVPR_2026_paper.pdf](https://openaccess.thecvf.com/content/CVPR2026/papers/Shabeeb_cryoSENSE_Compressive_Sensing_Enables_High-throughput_Microscopy_with_Sparse_and_Generative_CVPR_2026_paper.pdf)
+📄 **Preprint (arXiv):** [https://arxiv.org/abs/2511.12931](https://arxiv.org/abs/2511.12931)
 
 Cryo-electron microscopy (cryo-EM) enables the atomic-resolution visualization of biomolecules; however, modern direct detectors generate data volumes that far exceed the available storage and transfer bandwidth, thereby constraining practical throughput. We introduce cryoSENSE, the computational realization of a hardware-software co-designed framework for compressive cryo-EM sensing and acquisition. We show that cryo-EM images of proteins lie on low-dimensional manifolds that can be independently represented using sparse priors in predefined bases and generative priors captured by a denoising diffusion model. cryoSENSE leverages these low-dimensional manifolds to enable faithful image reconstruction from spatial and Fourier-domain undersampled measurements while preserving downstream structural resolution. In experiments, cryoSENSE increases acquisition throughput by up to 2.5× while retaining the original 3D resolution, offering controllable trade-offs between the number of masked measurements and the level of downsampling.
 
@@ -16,32 +22,51 @@ Cryo-electron microscopy (cryo-EM) enables the atomic-resolution visualization o
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Comparative Methods](#comparative-methods)
-3. [Experimental Results](#experimental-results)
-4. [CryoSENSE](#cryosense)
-   - 4.1. [Installation](#installation)
-     - 4.1.1. [From PyPI (recommended)](#from-pypi-recommended)
-     - 4.1.2. [From Source](#from-source)
-   - 4.2. [Quick Start](#quick-start)
-     - 4.2.1. [Command-line Interface](#command-line-interface)
-     - 4.2.2. [Python API](#python-api)
-   - 4.3. [Demonstration](#demonstration)
-     - 4.3.1. [Low Compression (Block Size 2, 4 Masks)](#low-compression-block-size-2-4-masks)
-     - 4.3.2. [High Compression (Block Size 32, 1024 Masks)](#high-compression-block-size-32-1024-masks)
-   - 4.4. [Example Scripts](#example-scripts)
-     - 4.4.1. [Python Example](#python-example)
-     - 4.4.2. [Bash Example](#bash-example)
-   - 4.5. [Experiment Scripts](#experiment-scripts)
-     - 4.5.1. [Running Experiments](#running-experiments)
-     - 4.5.2. [Batch Reconstruction](#batch-reconstruction)
-   - 4.6. [Pretrained Models](#pretrained-models)
-   - 4.7. [Command-line Options](#command-line-options)
-   - 4.8. [Configuration Files](#configuration-files)
-     - 4.8.1. [Recommended Parameters](#recommended-parameters)
-   - 4.9. [Verbose Mode Output](#verbose-mode-output)
-   - 4.10. [Supported Data Formats](#supported-data-formats)
-   - 4.11. [Requirements](#requirements)
-5. [Datasets](#datasets)
+2. [Citation](#citation)
+3. [Comparative Methods](#comparative-methods)
+4. [Experimental Results](#experimental-results)
+5. [CryoSENSE](#cryosense)
+   - 5.1. [Installation](#installation)
+     - 5.1.1. [From PyPI (recommended)](#from-pypi-recommended)
+     - 5.1.2. [From Source](#from-source)
+   - 5.2. [Quick Start](#quick-start)
+     - 5.2.1. [Command-line Interface](#command-line-interface)
+     - 5.2.2. [Python API](#python-api)
+   - 5.3. [Demonstration](#demonstration)
+     - 5.3.1. [Low Compression (Block Size 2, 4 Masks)](#low-compression-block-size-2-4-masks)
+     - 5.3.2. [High Compression (Block Size 32, 1024 Masks)](#high-compression-block-size-32-1024-masks)
+   - 5.4. [Example Scripts](#example-scripts)
+     - 5.4.1. [Python Example](#python-example)
+     - 5.4.2. [Bash Example](#bash-example)
+   - 5.5. [Experiment Scripts](#experiment-scripts)
+     - 5.5.1. [Running Experiments](#running-experiments)
+     - 5.5.2. [Batch Reconstruction](#batch-reconstruction)
+   - 5.6. [Pretrained Models](#pretrained-models)
+   - 5.7. [Command-line Options](#command-line-options)
+   - 5.8. [Configuration Files](#configuration-files)
+     - 5.8.1. [Recommended Parameters](#recommended-parameters)
+   - 5.9. [Verbose Mode Output](#verbose-mode-output)
+   - 5.10. [Supported Data Formats](#supported-data-formats)
+   - 5.11. [Requirements](#requirements)
+6. [Datasets](#datasets)
+
+---
+
+## Citation
+
+If you find cryoSENSE useful in your research, please cite our paper:
+
+```bibtex
+@misc{shabeeb2026cryosensecompressivesensingenables,
+      title={cryoSENSE: Compressive Sensing Enables High-throughput Microscopy with Sparse and Generative Priors on the Protein Cryo-EM Image Manifold},
+      author={Zain Shabeeb and Daniel Saeedi and Darin Tsui and Vida Jamali and Amirali Aghazadeh},
+      year={2026},
+      eprint={2511.12931},
+      archivePrefix={arXiv},
+      primaryClass={eess.IV},
+      url={https://arxiv.org/abs/2511.12931},
+}
+```
 
 ---
 
@@ -63,7 +88,6 @@ The scripts and data for analyzing and visualizing the experimental results are 
 
 #### From PyPI (recommended)
 
-We will enable this option in camera-ready version.
 ```bash
 pip install cryosense
 ```
@@ -215,7 +239,7 @@ bash examples/simple_example.sh
 These example scripts demonstrate CryoSENSE's capabilities with the following features:
 
 - **No manual downloads required**: A sample image is included in the `data/` directory
-- **Pre-trained model**: Uses the anonymously uploaded DDPM model (`anon202628/empiar10076-ddpm-ema-cryoem-128x128`) from HuggingFace
+- **Pre-trained model**: Uses the DDPM model (`anon202628/empiar10076-ddpm-ema-cryoem-128x128`) from HuggingFace
 - **Configurable block size**: The block size parameter can be changed to any of {2, 4, 8, 16, 32}, adjust the number of masks accordingly.
   - Example scripts demonstrate both block sizes 32 and 2
   - Different block sizes automatically use appropriate configuration parameters
